@@ -234,35 +234,31 @@ public class Tools {
     }
 
 
-    public static String verifyResponseResult(Object beanObject) {
+    public static String verifyResponseResult(String jsonStr) {
         String errorMsg = null;
-        if (beanObject == null) {
+        BaseResponseBean bean = parseJson(jsonStr, BaseResponseBean.class);
+        if (bean == null) {
             errorMsg = App.getInstance().getString(R.string.json_syntax_error);
-        } else {
-            String jsonStr =  JSON.toJSONString(beanObject);
-            BaseResponseBean bean=parseJson(jsonStr,BaseResponseBean.class);
-            if (bean == null){
-                errorMsg = App.getInstance().getString(R.string.json_syntax_error);
-            } else if (bean.getResult().getRes() == 1) {
-                errorMsg = null;
-            } else if (bean.getResult().getRes() == 100) {
-                errorMsg = App.getInstance().getString(R.string.utils_token_timeout);
-                ToastUtils.toast(errorMsg);
-                UserInfo.logout();
+        } else if (bean.getResult().getRes() == 1) {
+            errorMsg = null;
+        } else if (bean.getResult().getRes() == 100) {
+            errorMsg = App.getInstance().getString(R.string.utils_token_timeout);
+            ToastUtils.toast(errorMsg);
+            UserInfo.logout();
 
-                Intent intent = new Intent(App.getInstance(), FragmentContainerActivity.class);
-                intent.putExtra("className", LoginFragment.class.getName());
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                App.getInstance().startActivity(intent);
+            Intent intent = new Intent(App.getInstance(), FragmentContainerActivity.class);
+            intent.putExtra("className", LoginFragment.class.getName());
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            App.getInstance().startActivity(intent);
 
                 /*Intent homePageIntent = new Intent(App.getInstance(), MainActivity.class);
                 homePageIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 App.getInstance().startActivity(homePageIntent);*/
-            } else {
-                errorMsg = bean.getResult().getMsg();
-            }
+        } else {
+            errorMsg = bean.getResult().getMsg();
         }
+
         return errorMsg;
     }
 

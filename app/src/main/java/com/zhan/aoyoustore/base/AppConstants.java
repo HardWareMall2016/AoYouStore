@@ -28,11 +28,6 @@ package com.zhan.aoyoustore.base;
  //                       '.:::::'                    ':'````..
  //
  */
-public class IronFutureConstants {
+public class AppConstants {
     public static final int DEF_PAGE_SIZE=20;
-    public static final int PAGE_DIRECTION_DOWN=1;
-    //public static final int PAGE_DIRECTION_UP=2;
-
-    //Role
-    public static final int ROLE_NONE=0;//无业状态
 }

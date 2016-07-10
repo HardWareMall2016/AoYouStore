@@ -432,7 +432,7 @@ public abstract class ABaseFragment extends Fragment {
                 return;
             }
             ResponseBean result = parseResponseToResult(content);
-            String errorMsg=verifyResponseResult(result);
+            String errorMsg=verifyResponseResult(content);
             if(TextUtils.isEmpty(errorMsg)){
                 setContentEmpty(resultIsEmpty(result));
                 onSuccess(result);
@@ -454,7 +454,7 @@ public abstract class ABaseFragment extends Fragment {
          * @param result
          * @return
          */
-        public String verifyResponseResult(ResponseBean result){
+        public String verifyResponseResult(String result){
             return null;
         }
 

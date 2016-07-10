@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,7 +51,7 @@ import java.util.ArrayList;
  * //                       '.:::::'                    ':'````..
  * //
  */
-public class GoodsMain extends ABaseFragment {
+public class GoodsMain extends ABaseFragment implements AdapterView.OnItemClickListener {
 
     @ViewInject(id = R.id.gridView)
     PullToRefreshGridView mPullToRefreshGridView;
@@ -59,7 +60,7 @@ public class GoodsMain extends ABaseFragment {
     private GoodsAdapter mGridViewAdapter;
 
     //Data
-    private ArrayList<Goods> mGoodsList = new ArrayList<>();
+    private ArrayList<ShopCategory> mShopCategoryList = new ArrayList<>();
 
     @Override
     protected int inflateContentView() {
@@ -83,13 +84,14 @@ public class GoodsMain extends ABaseFragment {
         });
 
         GridView mGridView = mPullToRefreshGridView.getRefreshableView();
-        mGridViewAdapter = new GoodsAdapter(mGoodsList, getActivity());
+        mGridViewAdapter = new GoodsAdapter(mShopCategoryList, getActivity());
         mGridView.setAdapter(mGridViewAdapter);
+        mGridView.setOnItemClickListener(this);
     }
 
     @Override
     public boolean isContentEmpty() {
-        return mGoodsList.size()==0;
+        return mShopCategoryList.size()==0;
     }
 
     @Override
@@ -103,7 +105,7 @@ public class GoodsMain extends ABaseFragment {
                 return Tools.parseJson(content,GetShopCategoriesResponseBean.class);
             }
             @Override
-            public String verifyResponseResult(GetShopCategoriesResponseBean result) {
+            public String verifyResponseResult(String result) {
                 return Tools.verifyResponseResult(result);
             }
 
@@ -111,13 +113,14 @@ public class GoodsMain extends ABaseFragment {
             protected void onSuccess(GetShopCategoriesResponseBean result) {
                 super.onSuccess(result);
                 //这里加正确处理的逻辑就好了
-                mGoodsList.clear();
+                mShopCategoryList.clear();
                 for(GetShopCategoriesResponseBean.ResultBean.CategoryBean categoryBean:result.getResult().getCategory()){
-                    Goods goods=new Goods();
-                    goods.cid=categoryBean.getCid();
-                    goods.icon=categoryBean.getIcon();
-                    goods.name=categoryBean.getName();
-                    mGoodsList.add(goods);
+                    ShopCategory shopCategory=new ShopCategory();
+                    shopCategory.cid=categoryBean.getCid();
+                    shopCategory.icon=categoryBean.getIcon();
+                    shopCategory.name=categoryBean.getName();
+                    shopCategory.hasChildren=categoryBean.isHasChildren();
+                    mShopCategoryList.add(shopCategory);
                 }
 
                 mGridViewAdapter.notifyDataSetChanged();
@@ -132,19 +135,27 @@ public class GoodsMain extends ABaseFragment {
         }, HttpRequestUtils.RequestType.POST);
     }
 
-    private class GoodsAdapter extends ABaseAdapter<Goods> {
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ShopCategory shopCategory= mShopCategoryList.get(position);
+        if(!shopCategory.hasChildren){
+            ProductListFragment.launchForResult(getActivity(),shopCategory.cid);
+        }
+    }
 
-        public GoodsAdapter(ArrayList<Goods> datas, Activity context) {
+    private class GoodsAdapter extends ABaseAdapter<ShopCategory> {
+
+        public GoodsAdapter(ArrayList<ShopCategory> datas, Activity context) {
             super(datas, context);
         }
 
         @Override
-        protected AbstractItemView<Goods> newItemView() {
+        protected AbstractItemView<ShopCategory> newItemView() {
             return new GoodsItemView();
         }
     }
 
-    private class GoodsItemView extends ABaseAdapter.AbstractItemView<Goods> {
+    private class GoodsItemView extends ABaseAdapter.AbstractItemView<ShopCategory> {
         @ViewInject(id = R.id.goods_icon)
         private ImageView mViewGoodsType;
 
@@ -157,15 +168,16 @@ public class GoodsMain extends ABaseFragment {
         }
 
         @Override
-        public void bindingData(View convertView, Goods data) {
+        public void bindingData(View convertView, ShopCategory data) {
             ImageLoader.getInstance().displayImage(data.icon, mViewGoodsType, Tools.buildDisplayGoodsImgOptions());
             Tools.setTextView(mViewSummary,data.name);
         }
     }
 
-    public class Goods{
+    public class ShopCategory {
         int cid;
         String name;
         String icon;
+        boolean hasChildren;
     }
 }
