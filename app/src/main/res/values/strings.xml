@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">傲佑电子商城</string>
+    <!-- base-->
+    <string name="json_syntax_error">数据格式错误</string>
+    <string name="utils_token_timeout">token无效或者已过期，请重新登录!</string>
+    <string name="cancel">取消</string>
+    <string name="finish">完成</string>
+    <string name="confirm">确定</string>
+
+    <string name="module_goods">商品</string>
+
+
+    <string name="module_information">资讯</string>
+
+
+    <string name="module_shopping_cart">购物车</string>
+
+
+    <string name="module_mine">我的</string>
+
+</resources>
