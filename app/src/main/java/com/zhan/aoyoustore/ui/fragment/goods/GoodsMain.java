@@ -96,9 +96,6 @@ public class GoodsMain extends ABaseFragment implements AdapterView.OnItemClickL
 
     @Override
     public void requestData() {
-        if(isRequestProcessing(ApiUrls.GET_SHOP_CATEGORIES)){
-            return;
-        }
         startFormRequest(ApiUrls.GET_SHOP_CATEGORIES, null, new BaseHttpRequestTask<GetShopCategoriesResponseBean>() {
             @Override
             public GetShopCategoriesResponseBean parseResponseToResult(String content) {
@@ -139,7 +136,9 @@ public class GoodsMain extends ABaseFragment implements AdapterView.OnItemClickL
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ShopCategory shopCategory= mShopCategoryList.get(position);
         if(!shopCategory.hasChildren){
-            ProductListFragment.launchForResult(getActivity(),shopCategory.cid);
+            ProductListFragment.launch(getActivity(),shopCategory.cid);
+        }else{
+            ShopCategoryListFragment.launch(getActivity(),shopCategory.cid);
         }
     }
 
