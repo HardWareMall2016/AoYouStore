@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -82,6 +83,12 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
     protected void layoutInit(LayoutInflater inflater, Bundle savedInstanceSate) {
         super.layoutInit(inflater, savedInstanceSate);
         getActivity().setTitle("商品列表");
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Product product=getAdapterItems().get((int) id);
+        ProductDetailFragment.launch(getActivity(),product.pid);
     }
 
     @Override

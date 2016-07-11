@@ -39,4 +39,6 @@ public class ApiUrls {
     public static final String GET_SHOP_CATEGORIES = "getShopCategories.ashx";
     //获取商品列表
     public static final String GET_PRODUCT_LIST = "getProductList.ashx";
+    //获取商品详情
+    public static final String GET_PRODUCT_DETAIL = "getProductDetail.ashx";
 }
