@@ -640,7 +640,7 @@ public abstract class ARefreshFragment<T, V extends View> extends ABaseFragment
 
 
 	public int getFirstPageIndex(){
-		return 0;
+		return 1;
 	}
 
 	public static class RefreshConfig implements Serializable {
@@ -653,7 +653,7 @@ public abstract class ARefreshFragment<T, V extends View> extends ABaseFragment
 
 		public String saveLastPositionKey = null;// 最后阅读坐标的Key，null-不保存，针对缓存数据有效
 
-		public int minResultSize = 10;// 当加载的数据少于这个值时，默认没有更多加载
+		public int minResultSize = 20;// 当加载的数据少于这个值时，默认没有更多加载
 
 		public boolean animEnable = false;// 是否启用加载动画
 

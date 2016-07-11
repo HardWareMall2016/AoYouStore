@@ -31,20 +31,22 @@ import java.util.List;
  * //
  */
 public class GetShopCategoriesResponseBean {
-    private ResultBean result;
 
-    public ResultBean getResult() {
+
+    private ResultEntity result;
+
+    public ResultEntity getResult() {
         return result;
     }
 
-    public void setResult(ResultBean result) {
+    public void setResult(ResultEntity result) {
         this.result = result;
     }
 
-    public static class ResultBean {
+    public static class ResultEntity {
         private int res;
 
-        private List<CategoryBean> category;
+        private List<CategoryEntity> category;
 
         public int getRes() {
             return res;
@@ -54,21 +56,29 @@ public class GetShopCategoriesResponseBean {
             this.res = res;
         }
 
-        public List<CategoryBean> getCategory() {
+        public List<CategoryEntity> getCategory() {
             return category;
         }
 
-        public void setCategory(List<CategoryBean> category) {
+        public void setCategory(List<CategoryEntity> category) {
             this.category = category;
         }
 
-        public static class CategoryBean {
+        public static class CategoryEntity {
             private int cid;
             private String name;
             private String icon;
             private boolean hasChildren;
             private String descriptions;
-            private List<?> subs;
+            /**
+             * cid : 44
+             * name : 晶体
+             * icon : null
+             * descriptions :
+             * proCount : 1
+             */
+
+            private List<SubsEntity> subs;
 
             public int getCid() {
                 return cid;
@@ -110,12 +120,60 @@ public class GetShopCategoriesResponseBean {
                 this.descriptions = descriptions;
             }
 
-            public List<?> getSubs() {
+            public List<SubsEntity> getSubs() {
                 return subs;
             }
 
-            public void setSubs(List<?> subs) {
+            public void setSubs(List<SubsEntity> subs) {
                 this.subs = subs;
+            }
+
+            public static class SubsEntity {
+                private int cid;
+                private String name;
+                private String icon;
+                private String descriptions;
+                private int proCount;
+
+                public int getCid() {
+                    return cid;
+                }
+
+                public void setCid(int cid) {
+                    this.cid = cid;
+                }
+
+                public String getName() {
+                    return name;
+                }
+
+                public void setName(String name) {
+                    this.name = name;
+                }
+
+                public String getIcon() {
+                    return icon;
+                }
+
+                public void setIcon(String icon) {
+                    this.icon = icon;
+                }
+
+                public String getDescriptions() {
+                    return descriptions;
+                }
+
+                public void setDescriptions(String descriptions) {
+                    this.descriptions = descriptions;
+                }
+
+                public int getProCount() {
+                    return proCount;
+                }
+
+                public void setProCount(int proCount) {
+                    this.proCount = proCount;
+                }
             }
         }
     }

@@ -1,9 +1,15 @@
 package com.zhan.aoyoustore.ui.fragment.goods;
 
 import android.app.Activity;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zhan.aoyoustore.R;
 import com.zhan.aoyoustore.base.AppConstants;
 import com.zhan.aoyoustore.beans.GetProductListResponseBean;
@@ -14,6 +20,7 @@ import com.zhan.framework.component.container.FragmentContainerActivity;
 import com.zhan.framework.network.HttpRequestParams;
 import com.zhan.framework.network.HttpRequestUtils;
 import com.zhan.framework.support.adapter.ABaseAdapter;
+import com.zhan.framework.support.inject.ViewInject;
 import com.zhan.framework.ui.fragment.APullToRefreshListFragment;
 
 import java.util.ArrayList;
@@ -72,6 +79,12 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
     }
 
     @Override
+    protected void layoutInit(LayoutInflater inflater, Bundle savedInstanceSate) {
+        super.layoutInit(inflater, savedInstanceSate);
+        getActivity().setTitle("商品列表");
+    }
+
+    @Override
     protected ABaseAdapter.AbstractItemView<Product> newItemView() {
         return new ProductItemView();
     }
@@ -86,6 +99,7 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
         int page=getNextPage(mode);
 
         HttpRequestParams requestParams=new HttpRequestParams();
+        requestParams.put("categoryId",mCategoryId);
         requestParams.put("pageIndex",page);
         requestParams.put("pageSize",getRefreshConfig().minResultSize);
 
@@ -124,6 +138,23 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
     }
 
     private class ProductItemView extends ABaseAdapter.AbstractItemView<Product>{
+        @ViewInject(id = R.id.goods_icon)
+        ImageView mViewGoodsIcon ;
+
+        @ViewInject(id = R.id.name)
+        TextView mViewName ;
+
+        @ViewInject(id = R.id.price)
+        TextView mViewPrice ;
+
+        @ViewInject(id = R.id.marketPrice)
+        TextView mViewMarketPrice ;
+
+        @ViewInject(id = R.id.saleCounts)
+        TextView mViewSaleCounts ;
+
+        @ViewInject(id = R.id.discount)
+        TextView mViewDiscount ;
 
         @Override
         public int inflateViewId() {
@@ -131,8 +162,26 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
         }
 
         @Override
-        public void bindingData(View convertView, Product data) {
+        public void bindingView(View convertView) {
+            super.bindingView(convertView);
+            mViewMarketPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        }
 
+        @Override
+        public void bindingData(View convertView, Product data) {
+            ImageLoader.getInstance().displayImage(data.pic, mViewGoodsIcon, Tools.buildDisplayGoodsImgOptions());
+            Tools.setTextView(mViewName, data.name);
+            Tools.setTextView(mViewPrice,"￥"+data.price);
+            Tools.setTextView(mViewMarketPrice,"￥"+data.marketPrice);
+            Tools.setTextView(mViewSaleCounts,"销量:"+data.saleCounts);
+
+            String discountStr="折扣:";
+            if (TextUtils.isEmpty(data.discount)) {
+                discountStr+="无";
+            }else{
+                discountStr+=data.discount;
+            }
+            Tools.setTextView(mViewDiscount,discountStr);
         }
     }
 

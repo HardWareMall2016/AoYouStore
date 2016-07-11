@@ -21,6 +21,7 @@ import com.zhan.framework.support.adapter.ABaseAdapter;
 import com.zhan.framework.support.inject.ViewInject;
 import com.zhan.framework.ui.fragment.ABaseFragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -111,7 +112,7 @@ public class GoodsMain extends ABaseFragment implements AdapterView.OnItemClickL
                 super.onSuccess(result);
                 //这里加正确处理的逻辑就好了
                 mShopCategoryList.clear();
-                for(GetShopCategoriesResponseBean.ResultBean.CategoryBean categoryBean:result.getResult().getCategory()){
+                for(GetShopCategoriesResponseBean.ResultEntity.CategoryEntity categoryBean:result.getResult().getCategory()){
                     ShopCategory shopCategory=new ShopCategory();
                     shopCategory.cid=categoryBean.getCid();
                     shopCategory.icon=categoryBean.getIcon();
@@ -138,7 +139,7 @@ public class GoodsMain extends ABaseFragment implements AdapterView.OnItemClickL
         if(!shopCategory.hasChildren){
             ProductListFragment.launch(getActivity(),shopCategory.cid);
         }else{
-            ShopCategoryListFragment.launch(getActivity(),shopCategory.cid);
+            ShopCategoryListFragment.launch(getActivity(),shopCategory.cid,shopCategory.name);
         }
     }
 
@@ -173,7 +174,7 @@ public class GoodsMain extends ABaseFragment implements AdapterView.OnItemClickL
         }
     }
 
-    public class ShopCategory {
+    public class ShopCategory implements Serializable{
         int cid;
         String name;
         String icon;

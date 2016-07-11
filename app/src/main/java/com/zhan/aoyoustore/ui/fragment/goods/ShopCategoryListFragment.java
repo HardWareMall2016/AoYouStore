@@ -2,9 +2,11 @@ package com.zhan.aoyoustore.ui.fragment.goods;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -18,6 +20,7 @@ import com.zhan.framework.component.container.FragmentContainerActivity;
 import com.zhan.framework.network.HttpRequestParams;
 import com.zhan.framework.network.HttpRequestUtils;
 import com.zhan.framework.support.adapter.ABaseAdapter;
+import com.zhan.framework.support.inject.ViewInject;
 import com.zhan.framework.ui.fragment.APullToRefreshListFragment;
 
 import java.util.ArrayList;
@@ -52,32 +55,43 @@ import java.util.List;
  * //
  */
 public class ShopCategoryListFragment extends APullToRefreshListFragment<ShopCategoryListFragment.ShopCategory> {
-    private final static String ARG_KEY="arg_key";
+    private final static String ARG_KEY_CATEGORY_ID="categoryId";
+    private final static String ARG_KEY_CATEGORY_NAME="categoryName";
 
     //data
     private int mCategoryId;
+    private String mTitle;
 
-    public static void launch(Activity activity,int categoryId){
+    public static void launch(Activity activity,int categoryId,String title){
         FragmentArgs args = new FragmentArgs();
-        args.add(ARG_KEY, categoryId);
+        args.add(ARG_KEY_CATEGORY_ID, categoryId);
+        args.add(ARG_KEY_CATEGORY_NAME, title);
         FragmentContainerActivity.launch(activity, ShopCategoryListFragment.class, args);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCategoryId = savedInstanceState == null ? (int) getArguments().getSerializable(ARG_KEY) : (int) savedInstanceState.getSerializable(ARG_KEY);
+        mCategoryId = savedInstanceState == null ? (int) getArguments().getSerializable(ARG_KEY_CATEGORY_ID) : (int) savedInstanceState.getSerializable(ARG_KEY_CATEGORY_ID);
+        mTitle = savedInstanceState == null ? (String) getArguments().getSerializable(ARG_KEY_CATEGORY_NAME) : (String) savedInstanceState.getSerializable(ARG_KEY_CATEGORY_NAME);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(ARG_KEY, mCategoryId);
+        outState.putSerializable(ARG_KEY_CATEGORY_ID, mCategoryId);
+        outState.putSerializable(ARG_KEY_CATEGORY_NAME, mTitle);
     }
 
     @Override
     protected void setInitPullToRefresh(ListView listView, PullToRefreshListView pullToRefreshListView, Bundle savedInstanceState) {
         pullToRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+    }
+
+    @Override
+    protected void layoutInit(LayoutInflater inflater, Bundle savedInstanceSate) {
+        super.layoutInit(inflater, savedInstanceSate);
+        getActivity().setTitle(mTitle);
     }
 
     @Override
@@ -88,7 +102,9 @@ public class ShopCategoryListFragment extends APullToRefreshListFragment<ShopCat
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ShopCategory shopCategory=getAdapterItems().get((int) id);
-        ProductListFragment.launch(getActivity(), shopCategory.cid);
+        if(shopCategory.proCount>0){
+            ProductListFragment.launch(getActivity(), shopCategory.cid);
+        }
     }
 
     @Override
@@ -96,7 +112,7 @@ public class ShopCategoryListFragment extends APullToRefreshListFragment<ShopCat
         HttpRequestParams requestParams=new HttpRequestParams();
         requestParams.put("categoryId",mCategoryId);
 
-        startFormRequest(ApiUrls.GET_SHOP_CATEGORIES, requestParams, new PagingTask<GetShopCategoriesResponseBean>(mode) {
+        startFormRequest(ApiUrls.GET_SHOP_CATEGORIES, null, new PagingTask<GetShopCategoriesResponseBean>(mode) {
             @Override
             public GetShopCategoriesResponseBean parseResponseToResult(String content) {
                 return Tools.parseJson(content, GetShopCategoriesResponseBean.class);
@@ -110,13 +126,19 @@ public class ShopCategoryListFragment extends APullToRefreshListFragment<ShopCat
             @Override
             protected List<ShopCategory> parseResult(GetShopCategoriesResponseBean result) {
                 ArrayList<ShopCategory> shopCategories = new ArrayList<>();
-                for(GetShopCategoriesResponseBean.ResultBean.CategoryBean categoryBean:result.getResult().getCategory()){
-                    ShopCategory shopCategory=new ShopCategory();
-                    shopCategory.cid=categoryBean.getCid();
-                    shopCategory.icon=categoryBean.getIcon();
-                    shopCategory.name=categoryBean.getName();
-                    shopCategory.hasChildren=categoryBean.isHasChildren();
-                    shopCategories.add(shopCategory);
+                for(GetShopCategoriesResponseBean.ResultEntity.CategoryEntity categoryBean:result.getResult().getCategory()){
+                    if(mCategoryId==categoryBean.getCid()){
+                        for(GetShopCategoriesResponseBean.ResultEntity.CategoryEntity.SubsEntity subsEntity:categoryBean.getSubs()){
+                            ShopCategory shopCategory=new ShopCategory();
+                            shopCategory.cid=subsEntity.getCid();
+                            shopCategory.icon=subsEntity.getIcon();
+                            shopCategory.name=subsEntity.getName();
+                            shopCategory.proCount=subsEntity.getProCount();
+                            shopCategory.descriptions=subsEntity.getDescriptions();
+                            shopCategories.add(shopCategory);
+                        }
+                        break;
+                    }
                 }
                 return shopCategories;
             }
@@ -125,6 +147,16 @@ public class ShopCategoryListFragment extends APullToRefreshListFragment<ShopCat
     }
 
     private class ShopCategoryItemView extends ABaseAdapter.AbstractItemView<ShopCategory>{
+
+        @ViewInject(id = R.id.name)
+        TextView mViewName ;
+
+        @ViewInject(id = R.id.descriptions)
+        TextView mViewDescriptions ;
+
+        @ViewInject(id = R.id.proCount)
+        TextView mViewProCount ;
+
         @Override
         public int inflateViewId() {
             return R.layout.list_item_shop_category_list;
@@ -132,7 +164,9 @@ public class ShopCategoryListFragment extends APullToRefreshListFragment<ShopCat
 
         @Override
         public void bindingData(View convertView, ShopCategory data) {
-
+            Tools.setTextView(mViewName,data.name);
+            Tools.setTextView(mViewDescriptions,data.descriptions);
+            Tools.setTextView(mViewProCount, String.valueOf(data.proCount));
         }
     }
 
@@ -140,7 +174,8 @@ public class ShopCategoryListFragment extends APullToRefreshListFragment<ShopCat
         int cid;
         String name;
         String icon;
-        boolean hasChildren;
+        String descriptions;
+        int proCount;
     }
 
 }
