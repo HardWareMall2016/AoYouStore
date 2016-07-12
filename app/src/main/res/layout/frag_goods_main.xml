@@ -1,4 +1,5 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,36 +10,40 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/action_bar_bg_color">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/search_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:background="@drawable/bg_white_half_circle_selector"
             android:gravity="center"
-            android:text="商品"
-            android:textColor="@color/title_color"
-            android:textSize="20sp" />
+            android:orientation="horizontal"
+            android:paddingBottom="4dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:paddingTop="4dp">
 
-        <TextView
-            android:id="@+id/right_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:gravity="center"
-            android:textColor="@color/text_title_color_selector"
-            android:textSize="18sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/search_bg_pressed"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="搜索关键字"
+                android:textColor="@color/text_color_content"
+                android:textSize="16sp"/>
+        </LinearLayout>
 
         <View
             android:id="@+id/underline"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/divider_color" />
+            android:background="@color/divider_color"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -62,7 +67,7 @@
             android:scrollbarStyle="outsideOverlay"
             android:stretchMode="columnWidth"
             android:verticalSpacing="16dp"
-            ptr:ptrMode="pullFromStart" />
+            ptr:ptrMode="pullFromStart"/>
     </RelativeLayout>
 
     <include
@@ -70,19 +75,19 @@
         layout="@layout/comm_lay_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <include
         android:id="@id/layoutLoadFailed"
         layout="@layout/comm_lay_loadfailed"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <include
         android:id="@id/layoutEmpty"
         layout="@layout/comm_lay_emptyview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 </RelativeLayout>

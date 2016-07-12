@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -56,6 +57,9 @@ public class GoodsMain extends ABaseFragment implements AdapterView.OnItemClickL
 
     @ViewInject(id = R.id.gridView)
     PullToRefreshGridView mPullToRefreshGridView;
+
+    @ViewInject(id = R.id.search_content, click = "OnClick")
+    LinearLayout mViewSearch;
 
     //Tools
     private GoodsAdapter mGridViewAdapter;
@@ -140,6 +144,14 @@ public class GoodsMain extends ABaseFragment implements AdapterView.OnItemClickL
             ProductListFragment.launch(getActivity(),shopCategory.cid);
         }else{
             ShopCategoryListFragment.launch(getActivity(),shopCategory.cid,shopCategory.name);
+        }
+    }
+
+    void OnClick(View v) {
+        switch (v.getId()) {
+            case R.id.search_content:
+                SearchProductFragment.launch(getActivity());
+                break;
         }
     }
 
