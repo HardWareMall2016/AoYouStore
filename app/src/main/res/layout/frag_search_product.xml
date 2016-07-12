@@ -1,7 +1,7 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/header_content"
@@ -32,7 +32,7 @@
                 android:gravity="center"
                 android:hint="搜索关键字"
                 android:textColorHint="@color/text_color_content"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/search_btn"
@@ -41,24 +41,27 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
-                android:src="@drawable/search_bg_pressed"/>
+                android:src="@drawable/search_bg_pressed" />
         </RelativeLayout>
-
-
-        <View
-            android:id="@+id/underline"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/divider_color"/>
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#E9E8ED"
+        android:gravity="center_vertical"
+        android:minHeight="30dp"
+        android:paddingLeft="8dp"
+        android:paddingStart="8dp"
+        android:singleLine="true"
+        android:text="最近的搜索"
+        android:textColor="@color/text_color_title"
+        android:textSize="@dimen/text_size_small" />
 
     <ListView
         android:id="@+id/history_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/header_content"
         android:cacheColorHint="#00000000"
         android:divider="@null"
         android:dividerHeight="0dip"
@@ -67,6 +70,6 @@
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
         android:listSelector="?attr/selectableItemBackground"
-        android:smoothScrollbar="true"/>
+        android:smoothScrollbar="true" />
 
-</RelativeLayout>
+</LinearLayout>

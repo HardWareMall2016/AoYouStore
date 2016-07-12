@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -52,7 +53,7 @@ import java.util.List;
  * //                       '.:::::'                    ':'````..
  * //
  */
-public class SearchProductFragment extends ABaseFragment {
+public class SearchProductFragment extends ABaseFragment implements AdapterView.OnItemClickListener {
 
     @ViewInject(id = R.id.history_list)
     ListView mListViewHistory;
@@ -87,7 +88,12 @@ public class SearchProductFragment extends ABaseFragment {
     protected void layoutInit(LayoutInflater inflater, Bundle savedInstanceSate) {
         super.layoutInit(inflater, savedInstanceSate);
 
-        getFromHistory();
+        mHistoryData.clear();
+        Extra extra = createExtraKey();
+        List<SearchKeyBean> dataList = CacheUtility.findCacheData(extra, SearchKeyBean.class);
+        if (dataList != null) {
+            mHistoryData.addAll(dataList);
+        }
 
         if (mHistoryData.size() > 0) {
             final View footView = inflater.inflate(R.layout.list_item_clear_history, null);
@@ -106,6 +112,7 @@ public class SearchProductFragment extends ABaseFragment {
 
         mAdapter = new HistoryAdapter(getActivity());
         mListViewHistory.setAdapter(mAdapter);
+        mListViewHistory.setOnItemClickListener(this);
     }
 
     void OnClick(View v) {
@@ -116,29 +123,14 @@ public class SearchProductFragment extends ABaseFragment {
                     ToastUtils.toast("请输入搜索内容");
                 } else {
                     saveToHistory(keyWord);
+                    startSearch(keyWord);
                 }
                 break;
         }
     }
 
-
-    private void getFromHistory() {
-        mHistoryData.clear();
-
-        Extra extra = new Extra();
-        extra.setOwner("all");
-        extra.setKey("product_keyword");
-        List<SearchKeyBean> dataList = CacheUtility.findCacheData(extra, SearchKeyBean.class);
-        if (dataList != null) {
-            mHistoryData.addAll(dataList);
-        }
-    }
-
     private void saveToHistory(String searchKey) {
-        Extra extra = new Extra();
-        extra.setOwner("all");
-        extra.setKey("product_keyword");
-
+        Extra extra = createExtraKey();
         boolean exists = false;
         List<SearchKeyBean> dataList = CacheUtility.findCacheData(extra, SearchKeyBean.class);
         if (dataList != null) {
@@ -151,14 +143,29 @@ public class SearchProductFragment extends ABaseFragment {
             if (!exists) {
                 SearchKeyBean bean = new SearchKeyBean();
                 bean.setSearchKey(searchKey);
-
-                dataList.add(bean);
-
+                dataList.add(0,bean);
                 CacheUtility.putCacheData(extra, dataList, SearchKeyBean.class);
             }
         }
     }
 
+    private Extra createExtraKey(){
+        Extra extra = new Extra();
+        extra.setOwner("all");
+        extra.setKey("product_keyword");
+        return extra;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        SearchKeyBean data=mHistoryData.get(position);
+        startSearch(data.getSearchKey());
+    }
+
+    private void startSearch(String searchKey){
+        ProductListFragment.launchSearchMode(getActivity(),searchKey);
+        getActivity().finish();
+    }
 
     private class HistoryAdapter extends ABaseAdapter<SearchKeyBean> {
 
@@ -173,12 +180,12 @@ public class SearchProductFragment extends ABaseFragment {
     }
 
     private class HistoryItemView extends ABaseAdapter.AbstractItemView<SearchKeyBean> {
-        @ViewInject(id = R.id.title)
+        @ViewInject(id = R.id.list_item)
         TextView mViewTitle;
 
         @Override
         public int inflateViewId() {
-            return R.layout.common_list_item1;
+            return R.layout.list_item_search_history;
         }
 
         @Override
