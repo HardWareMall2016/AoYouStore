@@ -26,4 +26,5 @@ dependencies {
     compile project(':framework')
     compile files('libs/universalimageloader.jar')
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.github.chrisbanes:PhotoView:1.2.6'
 }

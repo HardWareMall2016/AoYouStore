@@ -1,7 +1,6 @@
 package com.zhan.aoyoustore.ui.fragment.goods;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zhan.aoyoustore.R;
 import com.zhan.aoyoustore.beans.GetProductDetailResponseBean;
 import com.zhan.aoyoustore.network.ApiUrls;
-import com.zhan.aoyoustore.ui.activity.PictureViewerActivity;
+import com.zhan.aoyoustore.ui.fragment.common.PhotosFragment;
 import com.zhan.aoyoustore.utils.Tools;
 import com.zhan.framework.component.container.FragmentArgs;
 import com.zhan.framework.component.container.FragmentContainerActivity;
@@ -22,6 +21,8 @@ import com.zhan.framework.network.HttpRequestUtils;
 import com.zhan.framework.support.inject.ViewInject;
 import com.zhan.framework.ui.fragment.ABaseFragment;
 import com.zhan.framework.utils.PixelUtils;
+
+import java.util.ArrayList;
 
 /**
  * 作者：伍岳 on 2016/7/11 20:29
@@ -68,6 +69,7 @@ public class ProductDetailFragment extends ABaseFragment {
     LinearLayout mViewProductPics;
     //Data
     private int mProductId;
+    private ArrayList<String> mPruductPhotos=new ArrayList<>();
 
     //Tools
     private LayoutInflater mInflater;
@@ -144,15 +146,19 @@ public class ProductDetailFragment extends ABaseFragment {
             return;
         }
         mViewProductPics.removeAllViews();
+        mPruductPhotos.clear();
+        int position=0;
         for(String picPath:result.getResult().getPics()){
             ImageView pic=new ImageView(getActivity());
             pic.setScaleType(ImageView.ScaleType.CENTER);
             pic.setLayoutParams(new LinearLayout.LayoutParams(PixelUtils.dp2px(150), PixelUtils.dp2px(150)));
             ImageLoader.getInstance().displayImage(picPath, pic, Tools.buildDisplayGoodsImgOptions());
-            pic.setTag(picPath);
+            pic.setTag(position);
             pic.setOnClickListener(mOnImgClickListener);
             mViewProductPics.addView(pic);
 
+            mPruductPhotos.add(picPath);
+            position++;
         }
     }
 
@@ -175,20 +181,8 @@ public class ProductDetailFragment extends ABaseFragment {
     private View.OnClickListener mOnImgClickListener=new View.OnClickListener(){
         @Override
         public void onClick(View v) {
-            String picPath= (String)v.getTag();
-
-            Intent intent = new Intent(getActivity(), PictureViewerActivity.class);
-            intent.putExtra("image", picPath);//非必须
-
-            int[] location = new int[2];
-            v.getLocationOnScreen(location);
-            intent.putExtra("locationX", location[0]);//必须
-            intent.putExtra("locationY", location[1]);//必须
-
-            intent.putExtra("width", v.getWidth());//必须
-            intent.putExtra("height", v.getHeight());//必须
-            startActivity(intent);
-            getActivity().overridePendingTransition(0, 0);
+            int position=(int)v.getTag();
+            PhotosFragment.launch(getActivity(),mPruductPhotos,position);
         }
     };
 }

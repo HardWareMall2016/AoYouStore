@@ -41,4 +41,15 @@ public class ApiUrls {
     public static final String GET_PRODUCT_LIST = "getProductList.ashx";
     //获取商品详情
     public static final String GET_PRODUCT_DETAIL = "getProductDetail.ashx";
+
+
+    /***
+     *  商城-文章资讯
+     */
+    //获取商城分类
+    public static final String GET_ARTICLE_CATEGORYS = "getArticleCategorys.ashx";
+    //获取分类下所有文章内容
+    public static final String GET_ARTICLES_BY_CATEGORY_ID = "getArticlesByCategoryId.ashx";
+    //获取文章详细内容
+    public static final String GET_ARTICLE_INFO = "getArticleInfoById.ashx";
 }
