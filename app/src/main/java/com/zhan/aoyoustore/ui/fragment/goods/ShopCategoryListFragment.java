@@ -99,6 +99,7 @@ public class ShopCategoryListFragment extends ABaseFragment implements PinnedHea
     @Override
     protected void layoutInit(LayoutInflater inflater, Bundle savedInstanceSate) {
         super.layoutInit(inflater, savedInstanceSate);
+        getActivity().setTitle("商品分类");
         mInflater = inflater;
         mAdapter = new ExpandableAdapter();
         mShopCategoryList.setAdapter(mAdapter);
