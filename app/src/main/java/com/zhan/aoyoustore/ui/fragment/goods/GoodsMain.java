@@ -140,11 +140,12 @@ public class GoodsMain extends ABaseFragment implements AdapterView.OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ShopCategory shopCategory= mShopCategoryList.get(position);
-        if(!shopCategory.hasChildren){
+        /*if(!shopCategory.hasChildren){
             ProductListFragment.launch(getActivity(),shopCategory.cid);
         }else{
-            ShopCategoryListFragment.launch(getActivity(),shopCategory.cid,shopCategory.name);
-        }
+            ShopCategoryListFragment_bak.launch(getActivity(),shopCategory.cid,shopCategory.name);
+        }*/
+        ShopCategoryListFragment.launch(getActivity(), shopCategory.cid);
     }
 
     void OnClick(View v) {
