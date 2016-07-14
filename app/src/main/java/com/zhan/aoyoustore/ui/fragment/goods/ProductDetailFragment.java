@@ -1,5 +1,6 @@
 package com.zhan.aoyoustore.ui.fragment.goods;
 
+import android.animation.LayoutTransition;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -54,10 +55,40 @@ import java.util.ArrayList;
  */
 public class ProductDetailFragment extends ABaseFragment {
 
-    private final static String ARG_KEY="arg_key";
+    private final static String ARG_KEY = "arg_key";
+
+    @ViewInject(id = R.id.content)
+    LinearLayout mViewContent;
 
     @ViewInject(id = R.id.product_name)
     TextView mViewProductName;
+
+    @ViewInject(id = R.id.costPrice)
+    TextView mViewCostPrice;
+
+    @ViewInject(id = R.id.vistiCounts)
+    TextView mViewVistiCounts;
+
+    @ViewInject(id = R.id.weight)
+    TextView mViewWeight;
+
+    @ViewInject(id = R.id.marketPrice)
+    TextView mViewMarketPrice;
+
+    @ViewInject(id = R.id.isfreeShipping)
+    TextView mViewIsfreeShipping;
+
+    @ViewInject(id = R.id.saleCounts)
+    TextView mViewSaleCounts;
+
+    @ViewInject(id = R.id.stock)
+    TextView mViewStock;
+
+    @ViewInject(id = R.id.minSalePrice)
+    TextView mViewMinSalePrice;
+
+    @ViewInject(id = R.id.maxSalePrice)
+    TextView mViewMaxSalePrice;
 
     @ViewInject(id = R.id.short_description)
     TextView mViewProductShortDescp;
@@ -65,16 +96,21 @@ public class ProductDetailFragment extends ABaseFragment {
     @ViewInject(id = R.id.product_skus)
     LinearLayout mViewProductSkusContent;
 
+    @ViewInject(id = R.id.product_skus_title, click = "OnClick")
+    TextView mViewProductSkusTitle;
+
     @ViewInject(id = R.id.product_pic_content)
     LinearLayout mViewProductPics;
     //Data
     private int mProductId;
-    private ArrayList<String> mPruductPhotos=new ArrayList<>();
+    private ArrayList<String> mPruductPhotos = new ArrayList<>();
+    private boolean mShowProductSkusContent = true;
 
     //Tools
     private LayoutInflater mInflater;
+    private LayoutTransition mLayoutTransition;
 
-    public static void launch(Activity activity,int productId){
+    public static void launch(Activity activity, int productId) {
         FragmentArgs args = new FragmentArgs();
         args.add(ARG_KEY, productId);
         FragmentContainerActivity.launch(activity, ProductDetailFragment.class, args);
@@ -95,8 +131,14 @@ public class ProductDetailFragment extends ABaseFragment {
     @Override
     protected void layoutInit(LayoutInflater inflater, Bundle savedInstanceSate) {
         super.layoutInit(inflater, savedInstanceSate);
-        mInflater=inflater;
+        mInflater = inflater;
         getActivity().setTitle("商品详情");
+        mLayoutTransition = new LayoutTransition();
+        mViewContent.setLayoutTransition(mLayoutTransition);
+        mLayoutTransition.setStagger(LayoutTransition.CHANGE_APPEARING, 30);
+        mLayoutTransition.setStagger(LayoutTransition.CHANGE_DISAPPEARING, 30);
+        //设置每个动画持续的时间
+        mLayoutTransition.setDuration(300);
     }
 
     @Override
@@ -106,8 +148,8 @@ public class ProductDetailFragment extends ABaseFragment {
 
     @Override
     public void requestData() {
-        HttpRequestParams requestParams=new HttpRequestParams();
-        requestParams.put("productId",mProductId);
+        HttpRequestParams requestParams = new HttpRequestParams();
+        requestParams.put("productId", mProductId);
         startFormRequest(ApiUrls.GET_PRODUCT_DETAIL, requestParams, new BaseHttpRequestTask<GetProductDetailResponseBean>() {
             @Override
             public GetProductDetailResponseBean parseResponseToResult(String content) {
@@ -127,8 +169,8 @@ public class ProductDetailFragment extends ABaseFragment {
         }, HttpRequestUtils.RequestType.POST);
     }
 
-    private void populateView(GetProductDetailResponseBean result){
-        if(result==null||result.getResult()==null){
+    private void populateView(GetProductDetailResponseBean result) {
+        if (result == null || result.getResult() == null) {
             return;
         }
         populateProductInfo(result);
@@ -136,20 +178,35 @@ public class ProductDetailFragment extends ABaseFragment {
         populateProductSku(result);
     }
 
-    private void populateProductInfo(GetProductDetailResponseBean result){
-        Tools.setTextView(mViewProductName,result.getResult().getProductName());
-        Tools.setTextView(mViewProductShortDescp,result.getResult().getProductName());
+    private void populateProductInfo(GetProductDetailResponseBean result) {
+        Tools.setTextView(mViewProductName, result.getResult().getProductName());
+        Tools.setTextView(mViewProductShortDescp, result.getResult().getProductName());
+
+        Tools.setTextView(mViewVistiCounts, String.format("浏览次数%d", result.getResult().getVistiCounts()));
+        Tools.setTextView(mViewCostPrice, String.format("成本价￥%.2f", result.getResult().getCostPrice()));
+        Tools.setTextView(mViewWeight, String.format("重量 %.2fKg", result.getResult().getWeight()));
+        Tools.setTextView(mViewMarketPrice, String.format("市场价￥%.2f", result.getResult().getWeight()));
+        if (result.getResult().isIsfreeShipping()) {
+            mViewIsfreeShipping.setText("包邮");
+        } else {
+            mViewIsfreeShipping.setText("不包邮");
+        }
+        Tools.setTextView(mViewSaleCounts, String.format("销量%d", result.getResult().getSaleCounts()));
+        Tools.setTextView(mViewStock, String.format("库存%d", result.getResult().getStock()));
+
+        Tools.setTextView(mViewMinSalePrice, String.format("最低价￥%.2f", result.getResult().getMinSalePrice()));
+        Tools.setTextView(mViewMaxSalePrice, String.format("最高价￥%.2f", result.getResult().getMaxSalePrice()));
     }
 
-    private void populateProductPics(GetProductDetailResponseBean result){
-        if(result.getResult().getPics()==null){
+    private void populateProductPics(GetProductDetailResponseBean result) {
+        if (result.getResult().getPics() == null) {
             return;
         }
         mViewProductPics.removeAllViews();
         mPruductPhotos.clear();
-        int position=0;
-        for(String picPath:result.getResult().getPics()){
-            ImageView pic=new ImageView(getActivity());
+        int position = 0;
+        for (String picPath : result.getResult().getPics()) {
+            ImageView pic = new ImageView(getActivity());
             pic.setScaleType(ImageView.ScaleType.CENTER);
             pic.setLayoutParams(new LinearLayout.LayoutParams(PixelUtils.dp2px(150), PixelUtils.dp2px(150)));
             ImageLoader.getInstance().displayImage(picPath, pic, Tools.buildDisplayGoodsImgOptions());
@@ -162,27 +219,43 @@ public class ProductDetailFragment extends ABaseFragment {
         }
     }
 
-    private void populateProductSku(GetProductDetailResponseBean result){
-        if(result.getResult().getInfo()==null){
+    private void populateProductSku(GetProductDetailResponseBean result) {
+        if (result.getResult().getInfo() == null) {
             return;
         }
         mViewProductSkusContent.removeAllViews();
-        for(GetProductDetailResponseBean.ResultBean.InfoBean skusBean:result.getResult().getInfo()){
-            View itemProductSku=mInflater.inflate(R.layout.item_product_sku,null);
+        for (GetProductDetailResponseBean.ResultBean.InfoBean skusBean : result.getResult().getInfo()) {
+            View itemProductSku = mInflater.inflate(R.layout.item_product_sku, null);
             mViewProductSkusContent.addView(itemProductSku);
-            TextView infoName=(TextView)itemProductSku.findViewById(R.id.info_name);
-            TextView infoValue=(TextView)itemProductSku.findViewById(R.id.info_value);
+            TextView infoName = (TextView) itemProductSku.findViewById(R.id.info_name);
+            TextView infoValue = (TextView) itemProductSku.findViewById(R.id.info_value);
 
-            Tools.setTextView(infoName,skusBean.getInfoName());
-            Tools.setTextView(infoValue,skusBean.getInfoValue());
+            Tools.setTextView(infoName, skusBean.getInfoName());
+            Tools.setTextView(infoValue, skusBean.getInfoValue());
         }
     }
 
-    private View.OnClickListener mOnImgClickListener=new View.OnClickListener(){
+    private View.OnClickListener mOnImgClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int position=(int)v.getTag();
-            PhotosFragment.launch(getActivity(),mPruductPhotos,position);
+            int position = (int) v.getTag();
+            PhotosFragment.launch(getActivity(), mPruductPhotos, position);
         }
     };
+
+    void OnClick(View v) {
+        switch (v.getId()) {
+            case R.id.product_skus_title:
+                if (mShowProductSkusContent) {
+                    mShowProductSkusContent = false;
+                    mViewProductSkusContent.setVisibility(View.GONE);
+                    mViewProductSkusTitle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.arrow_up_small), null);
+                } else {
+                    mShowProductSkusContent = true;
+                    mViewProductSkusContent.setVisibility(View.VISIBLE);
+                    mViewProductSkusTitle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.arrow_down_small), null);
+                }
+                break;
+        }
+    }
 }

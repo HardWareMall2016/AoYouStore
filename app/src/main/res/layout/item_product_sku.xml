@@ -4,7 +4,8 @@
     android:background="@drawable/bg_white_small"
     android:gravity="center_vertical"
     android:minHeight="30dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/info_name"
