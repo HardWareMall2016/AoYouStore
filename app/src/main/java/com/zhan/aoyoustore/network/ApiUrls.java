@@ -30,7 +30,11 @@ package com.zhan.aoyoustore.network;
  */
 public class ApiUrls {
     //User - 用户登录
-    public static final String LOGIN = "uploadImg.do";
+    public static final String LOGIN = "login.ashx";
+    //User - 用户注册
+    public static final String REGISTER = "register.ashx";
+    //获取注册短信验证码
+    public static final String GET_LOGIN_CAPTCHA = "getLoginCaptcha.ashx";
 
     /***
      *  商城-商品信息

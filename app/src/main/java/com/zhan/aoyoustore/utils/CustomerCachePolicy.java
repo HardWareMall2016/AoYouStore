@@ -41,7 +41,7 @@ public class CustomerCachePolicy extends BaseCachePolicy {
         if(UserInfo.getCurrentUser()==null||!UserInfo.getCurrentUser().isLogin()){
             return VISITOR;
         }
-        return String.valueOf(UserInfo.getCurrentUser().getUserID());
+        return String.valueOf(UserInfo.getCurrentUser().getUid());
     }
 
     @Override

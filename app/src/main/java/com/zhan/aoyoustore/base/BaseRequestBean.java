@@ -7,7 +7,7 @@ public class BaseRequestBean {
 
     public BaseRequestBean(){
         if(UserInfo.getCurrentUser()!=null){
-            setUserID(UserInfo.getCurrentUser().getUserID());
+            setUserID(UserInfo.getCurrentUser().getUid());
             setToken(UserInfo.getCurrentUser().getToken());
         }
     }

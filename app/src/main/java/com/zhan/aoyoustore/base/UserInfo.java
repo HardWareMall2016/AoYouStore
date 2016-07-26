@@ -6,76 +6,28 @@ package com.zhan.aoyoustore.base;
 public class UserInfo extends BasePersistObject {
     private boolean isLogin =false;
 
+    private int res;
     private String token;
-    private int UserID;
-    private int postId;
-    private int comId ;
-    private int deptid;
-    private String peopleName;
-    private String schoolName;
-    private String accountName;
-
-    public String getPeopleName() {
-        return peopleName;
-    }
-
-    public void setPeopleName(String peopleName) {
-        this.peopleName = peopleName;
-    }
-
-    public String getSchoolName() {
-        return schoolName;
-    }
-
-    public void setSchoolName(String schoolName) {
-        this.schoolName = schoolName;
-    }
-
-    public String getAccountName() {
-        return accountName;
-    }
-
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
-    }
-
-    public int getComId() {
-        return comId;
-    }
-
-    public void setComId(int comId) {
-        this.comId = comId;
-    }
-
-
-    public int getPostId() {
-        return postId;
-    }
-
-    public void setPostId(int postId) {
-        this.postId = postId;
-    }
-
-
-
-    private String HeadImgUrl;
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-
-    public String getHeadImgUrl() {
-        return HeadImgUrl;
-    }
-
-    public void setHeadImgUrl(String headImgUrl) {
-        HeadImgUrl = headImgUrl;
-    }
+    private String jpush;
+    private int uid;
+    private String userName;
+    private String gradeName;
+    private String nickName;
+    private String realName;
+    private int waitPayCount;
+    private int waitFinishCount;
+    private int orderNumber;
+    private int expenditure;
+    private int points;
+    private int gender;
+    private String picture;
+    private int couponsCount;
+    private boolean IsOpenBalance;
+    private int balance;
+    private int hasBalance;
+    private int frozenBalance;
+    private String userType;
+    private String ReferralStatus;
 
     public boolean isLogin() {
         return isLogin;
@@ -85,20 +37,188 @@ public class UserInfo extends BasePersistObject {
         this.isLogin = isLogin;
     }
 
-    public int getUserID() {
-        return UserID;
+    public int getRes() {
+        return res;
     }
 
-    public void setUserID(int userID) {
-        UserID = userID;
+    public void setRes(int res) {
+        this.res = res;
     }
 
-    public int getDeptid() {
-        return deptid;
+    public String getToken() {
+        return token;
     }
 
-    public void setDeptid(int deptid) {
-        this.deptid = deptid;
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getJpush() {
+        return jpush;
+    }
+
+    public void setJpush(String jpush) {
+        this.jpush = jpush;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getGradeName() {
+        return gradeName;
+    }
+
+    public void setGradeName(String gradeName) {
+        this.gradeName = gradeName;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public int getWaitPayCount() {
+        return waitPayCount;
+    }
+
+    public void setWaitPayCount(int waitPayCount) {
+        this.waitPayCount = waitPayCount;
+    }
+
+    public int getWaitFinishCount() {
+        return waitFinishCount;
+    }
+
+    public void setWaitFinishCount(int waitFinishCount) {
+        this.waitFinishCount = waitFinishCount;
+    }
+
+    public int getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    public int getExpenditure() {
+        return expenditure;
+    }
+
+    public void setExpenditure(int expenditure) {
+        this.expenditure = expenditure;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public int getCouponsCount() {
+        return couponsCount;
+    }
+
+    public void setCouponsCount(int couponsCount) {
+        this.couponsCount = couponsCount;
+    }
+
+    public boolean isOpenBalance() {
+        return IsOpenBalance;
+    }
+
+    public void setIsOpenBalance(boolean isOpenBalance) {
+        IsOpenBalance = isOpenBalance;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    public int getHasBalance() {
+        return hasBalance;
+    }
+
+    public void setHasBalance(int hasBalance) {
+        this.hasBalance = hasBalance;
+    }
+
+    public int getFrozenBalance() {
+        return frozenBalance;
+    }
+
+    public void setFrozenBalance(int frozenBalance) {
+        this.frozenBalance = frozenBalance;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getReferralStatus() {
+        return ReferralStatus;
+    }
+
+    public void setReferralStatus(String referralStatus) {
+        ReferralStatus = referralStatus;
+    }
+
+    public static UserInfo getsUserInfo() {
+        return sUserInfo;
+    }
+
+    public static void setsUserInfo(UserInfo sUserInfo) {
+        UserInfo.sUserInfo = sUserInfo;
     }
 
     private static UserInfo sUserInfo=null;
