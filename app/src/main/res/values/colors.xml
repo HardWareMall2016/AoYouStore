@@ -40,6 +40,10 @@
     <color name="blue">#20a6fb</color>
     <color name="blue_pressed">#1b8dd6</color>
 
+    <!-- 红色 -->
+    <color name="red">#A80000</color>
+    <color name="red_pressed">#380000</color>
+
     <!-- 主色 -->
     <color name="main_color">#ffc500</color>
     <!-- 辅色 -->

@@ -2,6 +2,7 @@ package com.zhan.aoyoustore.ui.fragment.goods;
 
 import android.animation.LayoutTransition;
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,19 +12,24 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zhan.aoyoustore.R;
+import com.zhan.aoyoustore.base.BaseResponseBean;
+import com.zhan.aoyoustore.base.UserInfo;
 import com.zhan.aoyoustore.beans.GetProductDetailResponseBean;
 import com.zhan.aoyoustore.network.ApiUrls;
 import com.zhan.aoyoustore.ui.fragment.common.PhotosFragment;
 import com.zhan.aoyoustore.utils.Tools;
 import com.zhan.framework.component.container.FragmentArgs;
 import com.zhan.framework.component.container.FragmentContainerActivity;
+import com.zhan.framework.network.HttpRequestHandler;
 import com.zhan.framework.network.HttpRequestParams;
 import com.zhan.framework.network.HttpRequestUtils;
 import com.zhan.framework.support.inject.ViewInject;
 import com.zhan.framework.ui.fragment.ABaseFragment;
 import com.zhan.framework.utils.PixelUtils;
+import com.zhan.framework.utils.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * /**
@@ -84,10 +90,13 @@ public class ProductDetailFragment extends ABaseFragment {
     @ViewInject(id = R.id.tv_addCart,click = "OnClick")
     TextView mTvAddCart;
 
+    private Dialog mDialogAddCard;
+
     //Data
     private int mProductId;
     private ArrayList<String> mPruductPhotos = new ArrayList<>();
     private boolean mShowProductSkusContent = true;
+    private List<GetProductDetailResponseBean.ResultBean.SkusBean> mSkus;
 
     //Tools
     private LayoutInflater mInflater;
@@ -156,6 +165,7 @@ public class ProductDetailFragment extends ABaseFragment {
         if (result == null || result.getResult() == null) {
             return;
         }
+        mSkus=result.getResult().getSkus();
         populateProductInfo(result);
         populateProductPics(result);
         populateProductSku(result);
@@ -240,8 +250,109 @@ public class ProductDetailFragment extends ABaseFragment {
                 }
                 break;
             case R.id.tv_addCart:
-
+                if(Tools.checkIsLogin(getActivity())){
+                    showAddCardDialog();
+                }
                 break;
         }
+    }
+
+    //Dialog Views
+    private TextView mTvMinus;
+    private TextView mTvNum;
+    private TextView mTvPlus;
+    private TextView mTvAddToCard;
+    private TextView mTvAddToCardAndView;
+    private TextView mTvCancel;
+    //Dialog data
+    private int number;
+
+    private void showAddCardDialog(){
+        if(mSkus==null||mSkus.size()==0){
+            return;
+        }
+        mDialogAddCard=Tools.showDialogFromBottom(getActivity(),R.layout.dialog_add_to_shopping_cart,false);
+
+        number=1;
+
+        mTvNum=(TextView)mDialogAddCard.findViewById(R.id.tvNum);
+        mTvNum.setText(String.valueOf(number));
+
+        mTvMinus=(TextView)mDialogAddCard.findViewById(R.id.minus);
+        mTvMinus.setOnClickListener(mOnCardDialogClick);
+        mTvPlus=(TextView)mDialogAddCard.findViewById(R.id.plus);
+        mTvPlus.setOnClickListener(mOnCardDialogClick);
+
+        mTvAddToCard=(TextView)mDialogAddCard.findViewById(R.id.btn_add);
+        mTvAddToCard.setOnClickListener(mOnCardDialogClick);
+        mTvAddToCardAndView=(TextView)mDialogAddCard.findViewById(R.id.btn_add_and_view);
+        mTvAddToCardAndView.setOnClickListener(mOnCardDialogClick);
+        mTvCancel=(TextView)mDialogAddCard.findViewById(R.id.btn_cancel);
+        mTvCancel.setOnClickListener(mOnCardDialogClick);
+    }
+
+    private void dismissAddCardDialog(){
+        if(mDialogAddCard!=null&&mDialogAddCard.isShowing()){
+            mDialogAddCard.dismiss();
+            mDialogAddCard=null;
+        }
+    }
+
+    private View.OnClickListener mOnCardDialogClick=new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.minus:
+                    if(number>1){
+                        number--;
+                        mTvNum.setText(String.valueOf(number));
+                    }
+                    break;
+                case R.id.plus:
+                    number++;
+                    mTvNum.setText(String.valueOf(number));
+                    break;
+                case R.id.btn_add:
+                    addToCardRequest(mSkus.get(0).getSkuId(),false);
+                    break;
+                case R.id.btn_add_and_view:
+                    addToCardRequest(mSkus.get(0).getSkuId(),true);
+                    break;
+                case R.id.btn_cancel:
+                    dismissAddCardDialog();
+                    break;
+            }
+        }
+    };
+
+    private void addToCardRequest(String skuId ,final boolean goToCardList){
+        if(isRequestProcessing(ApiUrls.ADD_TO_CART)){
+            return;
+        }
+        HttpRequestParams requestParams = new HttpRequestParams();
+        requestParams.put("token", UserInfo.getCurrentUser().getToken());
+        requestParams.put("skuId", skuId);
+        requestParams.put("quantity", number);
+        showRotateProgressDialog("正在加入到购物车",false);
+        startFormRequest(ApiUrls.ADD_TO_CART, requestParams, new HttpRequestHandler(this) {
+            @Override
+            public void onRequestFinished(ResultCode resultCode, String result) {
+                closeRotateProgressDialog();
+                switch (resultCode){
+                    case success:
+                        BaseResponseBean responseBean=Tools.parseJsonTostError(result,BaseResponseBean.class);
+                        if(responseBean!=null){
+                            dismissAddCardDialog();
+                            if(goToCardList){
+
+                            }
+                        }
+                        break;
+                    default:
+                        ToastUtils.toast(result);
+                        break;
+                }
+            }
+        }, HttpRequestUtils.RequestType.POST);
     }
 }

@@ -13,7 +13,10 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -468,6 +471,22 @@ public class Tools {
             return false;
         }
         return true;
+    }
+
+    public static Dialog showDialogFromBottom(Activity activity, int dialogLayout, boolean showSoftInput) {
+        Dialog dialog = new Dialog(activity, com.zhan.framework.R.style.Dialog);
+        dialog.setContentView(dialogLayout);
+        Window window = dialog.getWindow();
+        if (showSoftInput) {
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        }
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.width = Tools.getScreenWidth(activity);
+        window.setGravity(Gravity.BOTTOM);  //此处可以设置dialog显示的位置
+        window.setWindowAnimations(R.style.pop_menu_animation);  //添加动画
+        dialog.show();
+
+        return dialog;
     }
 
 }

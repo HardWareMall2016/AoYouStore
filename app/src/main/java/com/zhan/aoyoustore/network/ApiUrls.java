@@ -63,4 +63,11 @@ public class ApiUrls {
     public static final String GET_ARTICLES_BY_CATEGORY_ID = "getArticlesByCategoryId.ashx";
     //获取文章详细内容
     public static final String GET_ARTICLE_INFO = "getArticleInfoById.ashx";
+
+
+    /***
+     *  订单模块
+     */
+    //加入购物车
+    public static final String ADD_TO_CART = "addToCart.ashx";
 }
