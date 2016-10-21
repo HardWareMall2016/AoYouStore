@@ -48,8 +48,15 @@ public class ApiUrls {
 
 
     /***
-     *  商城-文章资讯
+     *  商城-常用查询
      */
+    //获取分类下所有帮助信息
+    public static final String GET_HELPS_BY_CATEGORYS_ID = "getHelpsByCategoryId.ashx";
+    //获取帮助详情内容
+    public static final String GET_HELPS_INFO = "getHelpInfoById.ashx";
+
+
+
     //获取商城分类
     public static final String GET_ARTICLE_CATEGORYS = "getArticleCategorys.ashx";
     //获取分类下所有文章内容

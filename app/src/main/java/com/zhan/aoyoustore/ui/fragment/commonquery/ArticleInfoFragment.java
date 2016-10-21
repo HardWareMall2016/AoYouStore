@@ -1,4 +1,4 @@
-package com.zhan.aoyoustore.ui.fragment.information;
+package com.zhan.aoyoustore.ui.fragment.commonquery;
 
 import android.app.Activity;
 import android.os.Bundle;

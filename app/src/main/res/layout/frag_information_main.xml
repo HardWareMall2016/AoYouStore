@@ -16,7 +16,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="文章分类"
+            android:text="常用查询"
             android:textColor="@color/title_color"
             android:textSize="20sp" />
 

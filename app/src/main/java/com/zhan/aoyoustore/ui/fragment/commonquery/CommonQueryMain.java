@@ -1,4 +1,4 @@
-package com.zhan.aoyoustore.ui.fragment.information;
+package com.zhan.aoyoustore.ui.fragment.commonquery;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,6 +9,7 @@ import com.zhan.aoyoustore.R;
 import com.zhan.aoyoustore.beans.GetArticleCategoryResponseBean;
 import com.zhan.aoyoustore.network.ApiUrls;
 import com.zhan.aoyoustore.utils.Tools;
+import com.zhan.framework.network.HttpRequestParams;
 import com.zhan.framework.network.HttpRequestUtils;
 import com.zhan.framework.support.adapter.ABaseAdapter;
 import com.zhan.framework.support.inject.ViewInject;
@@ -18,34 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 作者：伍岳 on 2016/7/9 21:46
- * 邮箱：wuyue8512@163.com
- * //
- * //         .............................................
- * //                  美女坐镇                  BUG辟易
- * //         .............................................
- * //
- * //                       .::::.
- * //                     .::::::::.
- * //                    :::::::::::
- * //                 ..:::::::::::'
- * //              '::::::::::::'
- * //                .::::::::::
- * //           '::::::::::::::..
- * //                ..::::::::::::.
- * //              ``::::::::::::::::
- * //               ::::``:::::::::'        .:::.
- * //              ::::'   ':::::'       .::::::::.
- * //            .::::'      ::::     .:::::::'::::.
- * //           .:::'       :::::  .:::::::::' ':::::.
- * //          .::'        :::::.:::::::::'      ':::::.
- * //         .::'         ::::::::::::::'         ``::::.
- * //     ...:::           ::::::::::::'              ``::.
- * //    ```` ':.          ':::::::::'                  ::::..
- * //                       '.:::::'                    ':'````..
+ * 作者：蒲柯柯 on 2016/7/9 21:46
+ * 邮箱：983198505@qq.com
  * //
  */
-public class InformationMain extends APullToRefreshListFragment<InformationMain.ArticleCategory> {
+public class CommonQueryMain extends APullToRefreshListFragment<CommonQueryMain.ArticleCategory> {
 
     @Override
     protected int inflateContentView() {
@@ -59,7 +37,8 @@ public class InformationMain extends APullToRefreshListFragment<InformationMain.
 
     @Override
     protected void requestData(RefreshMode mode) {
-        startFormRequest(ApiUrls.GET_ARTICLE_CATEGORYS, null, new PagingTask<GetArticleCategoryResponseBean>(mode) {
+
+        startFormRequest(ApiUrls.GET_HELPS_BY_CATEGORYS_ID, null, new PagingTask<GetArticleCategoryResponseBean>(mode) {
             @Override
             public GetArticleCategoryResponseBean parseResponseToResult(String content) {
                 return Tools.parseJson(content, GetArticleCategoryResponseBean.class);
@@ -73,11 +52,12 @@ public class InformationMain extends APullToRefreshListFragment<InformationMain.
             @Override
             protected List<ArticleCategory> parseResult(GetArticleCategoryResponseBean productBean) {
                 List<ArticleCategory> products=new ArrayList<>();
-                for(GetArticleCategoryResponseBean.ResultEntity.CategorysEntity bean:productBean.getResult().getCategorys()){
+                for(GetArticleCategoryResponseBean.ResultBean.HelpsBean helpsBean:productBean.getResult().getHelps()){
                     ArticleCategory articleCategory=new ArticleCategory();
-                    articleCategory.categoryId=bean.getCategoryId();
-                    articleCategory.categoryName=bean.getCategoryName();
-                    articleCategory.categoryContent=bean.getCategoryContent();
+                    articleCategory.helpId = helpsBean.getHelpId();
+                    articleCategory.title = helpsBean.getTitle();
+                    articleCategory.descriptions = helpsBean.getDescriptions();
+                    articleCategory.createdAt = helpsBean.getCreatedAt();
                     products.add(articleCategory);
                 }
 
@@ -88,30 +68,24 @@ public class InformationMain extends APullToRefreshListFragment<InformationMain.
 
 
     private class CategoryItemView extends ABaseAdapter.AbstractItemView<ArticleCategory>{
-        @ViewInject(id = R.id.icon)
-        ImageView mViewIcon ;
-
         @ViewInject(id = R.id.title)
         TextView mViewTitle ;
 
-        @ViewInject(id = R.id.summary)
-        TextView mViewSummary ;
-
         @Override
         public int inflateViewId() {
-            return R.layout.common_list_item1;
+            return R.layout.common_query_list_item;
         }
 
         @Override
         public void bindingView(View convertView) {
             super.bindingView(convertView);
-            mViewIcon.setVisibility(View.GONE);
+           // mViewIcon.setVisibility(View.GONE);
         }
 
         @Override
         public void bindingData(View convertView, ArticleCategory data) {
-            Tools.setTextView(mViewTitle,data.categoryName);
-            Tools.setTextView(mViewSummary,data.categoryContent);
+            Tools.setTextView(mViewTitle,data.title);
+            //Tools.setTextView(mViewSummary,data.categoryContent);
         }
     }
 
@@ -119,12 +93,15 @@ public class InformationMain extends APullToRefreshListFragment<InformationMain.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ArticleCategory data=getAdapterItems().get((int)id);
-        ArticleListFragment.launch(getActivity(),data.categoryId,data.categoryName);
+        //ArticleListFragment.launch(getActivity(),data.categoryId,data.categoryName);
+        CommonQueryInfoFragment.launch(getActivity(),data.helpId,data.title);
     }
 
     public class ArticleCategory {
-        int categoryId;
-        String categoryName;
-        String categoryContent;
+        int helpId;
+        String title;
+        String descriptions;
+        String createdAt;
+
     }
 }

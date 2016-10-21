@@ -1,4 +1,4 @@
-package com.zhan.aoyoustore.ui.fragment.information;
+package com.zhan.aoyoustore.ui.fragment.commonquery;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -23,32 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 作者：伍岳 on 2016/7/12 15:38
- * 邮箱：wuyue8512@163.com
- * //
- * //         .............................................
- * //                  美女坐镇                  BUG辟易
- * //         .............................................
- * //
- * //                       .::::.
- * //                     .::::::::.
- * //                    :::::::::::
- * //                 ..:::::::::::'
- * //              '::::::::::::'
- * //                .::::::::::
- * //           '::::::::::::::..
- * //                ..::::::::::::.
- * //              ``::::::::::::::::
- * //               ::::``:::::::::'        .:::.
- * //              ::::'   ':::::'       .::::::::.
- * //            .::::'      ::::     .:::::::'::::.
- * //           .:::'       :::::  .:::::::::' ':::::.
- * //          .::'        :::::.:::::::::'      ':::::.
- * //         .::'         ::::::::::::::'         ``::::.
- * //     ...:::           ::::::::::::'              ``::.
- * //    ```` ':.          ':::::::::'                  ::::..
- * //                       '.:::::'                    ':'````..
- * //
+ * 作者：蒲柯柯 on 2016/7/9 21:46
+ * 邮箱：983198505@qq.com
  */
 public class ArticleListFragment  extends APullToRefreshListFragment<ArticleListFragment.Article> {
 

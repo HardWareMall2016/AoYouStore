@@ -15,7 +15,7 @@
     <!-- 状态栏颜色 -->
     <color name="status_bar_bg_color">#3B3B3B</color>
     <!-- 状态栏颜色 -->
-    <color name="action_bar_bg_color">#3B3B3B</color>
+    <color name="action_bar_bg_color">#20a6fb</color>
     <!-- 分割线颜色 -->
     <color name="divider_color">#dddddd</color>
     <color name="transparent">#00000000</color>

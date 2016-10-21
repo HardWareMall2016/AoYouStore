@@ -14,12 +14,12 @@
     <string name="module_goods">商品</string>
 
 
-    <string name="module_information">资讯</string>
+    <string name="module_information">常用查询</string>
 
 
     <string name="module_shopping_cart">购物车</string>
 
 
-    <string name="module_mine">我的</string>
+    <string name="module_mine">会员中心</string>
 
 </resources>
