@@ -82,13 +82,13 @@
                 android:id="@+id/register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="手机快速注册"/>
-            <TextView
-                android:id="@+id/login_find_psword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="找回密码"
-                android:layout_alignParentRight="true"/>
+                android:text="手机号注册"/>
+            <!--<TextView-->
+                <!--android:id="@+id/login_find_psword"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="找回密码"-->
+                <!--android:layout_alignParentRight="true"/>-->
         </RelativeLayout>
     </LinearLayout>
 
