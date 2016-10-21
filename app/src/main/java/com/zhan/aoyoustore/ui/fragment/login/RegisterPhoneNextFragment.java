@@ -148,11 +148,22 @@ public class RegisterPhoneNextFragment extends ABaseFragment {
                         user.setBalance(result.getResult().getBalance());
                         user.setHasBalance(result.getResult().getHasBalance());
                         user.setFrozenBalance(result.getResult().getFrozenBalance());
-                        //user.setGoldValue(result.getResult().getGoldValue());
-                        //user.setFrozenGoldValue(result.getResult().getFrozenGoldValue());
-                        user.setUserType(result.getResult().getUserType());
-                        //user.setExpiredDate(result.getResult().getExpiredDate());
+                        user.setEmail(result.getResult().getEmail());
+                        user.setMobile(result.getResult().getMobile());
+                        user.setCompanyName(result.getResult().getCompanyName());
+                        user.setCompanyType(result.getResult().getCompanyType());
+                        user.setCompanyJob(result.getResult().getCompanyJob());
+                        user.setCompanySite(result.getResult().getCompanySite());
+                        user.setTelPhone(result.getResult().getTelPhone());
+                        user.setFax(result.getResult().getFax());
                         user.setReferralStatus(result.getResult().getReferralStatus());
+                        user.setProvince(result.getResult().getProvince());
+                        user.setCity(result.getResult().getCity());
+                        user.setDistrict(result.getResult().getDistrict());
+                        user.setAddress(result.getResult().getAddress());
+                        user.setQq(result.getResult().getQq());
+                        user.setMsn(result.getResult().getMsn());
+                        user.setWangWang(result.getResult().getWangWang());
                         user.setIsLogin(true);
                         UserInfo.saveLoginUserInfo(user);
 

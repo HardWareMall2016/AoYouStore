@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.zhan.aoyoustore.R;
 import com.zhan.aoyoustore.ui.fragment.goods.GoodsMain;
-import com.zhan.aoyoustore.ui.fragment.information.InformationMain;
+import com.zhan.aoyoustore.ui.fragment.commonquery.CommonQueryMain;
 import com.zhan.aoyoustore.ui.fragment.mine.MineMain;
 import com.zhan.aoyoustore.ui.fragment.shoppingCart.CartMain;
 import com.zhan.aoyoustore.utils.Tools;
@@ -34,15 +34,15 @@ public class PageFactory {
         //商品
         GoodsMain goodsMain = new GoodsMain();
         pageList.add(generatePage(goodsMain, R.string.module_goods, R.drawable.tab_home_unselect, R.drawable.tab_home_selected));
-        //资讯
-        InformationMain informationMain = new InformationMain();
-        pageList.add(generatePage(informationMain, R.string.module_information, R.drawable.tab_goods_unselect, R.drawable.tab_goods_selected));
         //购物车
         CartMain cartMain = new CartMain();
         pageList.add(generatePage(cartMain, R.string.module_shopping_cart, R.drawable.tab_cart_unselect, R.drawable.tab_cart_selected));
-        //我的
+        //会员中心
         MineMain mineMain = new MineMain();
         pageList.add(generatePage(mineMain, R.string.module_mine, R.drawable.tab_me_unselect, R.drawable.tab_me_selected));
+        //常用查询
+        CommonQueryMain commonQueryMain = new CommonQueryMain();
+        pageList.add(generatePage(commonQueryMain, R.string.module_information, R.drawable.tab_goods_unselect, R.drawable.tab_goods_selected));
         return pageList;
     }
 

@@ -2,60 +2,39 @@ package com.zhan.aoyoustore.beans;
 
 import java.util.List;
 
-/**
- * 作者：伍岳 on 2016/7/12 15:17
- * 邮箱：wuyue8512@163.com
- * //
- * //         .............................................
- * //                  美女坐镇                  BUG辟易
- * //         .............................................
- * //
- * //                       .::::.
- * //                     .::::::::.
- * //                    :::::::::::
- * //                 ..:::::::::::'
- * //              '::::::::::::'
- * //                .::::::::::
- * //           '::::::::::::::..
- * //                ..::::::::::::.
- * //              ``::::::::::::::::
- * //               ::::``:::::::::'        .:::.
- * //              ::::'   ':::::'       .::::::::.
- * //            .::::'      ::::     .:::::::'::::.
- * //           .:::'       :::::  .:::::::::' ':::::.
- * //          .::'        :::::.:::::::::'      ':::::.
- * //         .::'         ::::::::::::::'         ``::::.
- * //     ...:::           ::::::::::::'              ``::.
- * //    ```` ':.          ':::::::::'                  ::::..
- * //                       '.:::::'                    ':'````..
- * //
- */
 public class GetArticleCategoryResponseBean {
 
     /**
      * res : 1
-     * categorys : [{"categoryId":7,"categoryName":"商城资讯","categoryContent":"商城资讯分类介绍"},{"categoryId":8,"categoryName":"商品资讯","categoryContent":"商品资讯介绍"}]
+     * categoryId : 7
+     * categoryName : 常用查询
+     * categoryContent : 常用查询
+     * helps : [{"helpId":14,"title":"常用贴片电阻阻值表","descriptions":"常用贴片电阻阻值表","createdAt":"1477030799"},{"helpId":13,"title":"色环电阻表","descriptions":"色环电阻表","createdAt":"1477030772"}]
      */
 
-    private ResultEntity result;
+    private ResultBean result;
 
-    public ResultEntity getResult() {
+    public ResultBean getResult() {
         return result;
     }
 
-    public void setResult(ResultEntity result) {
+    public void setResult(ResultBean result) {
         this.result = result;
     }
 
-    public static class ResultEntity {
+    public static class ResultBean {
         private int res;
+        private int categoryId;
+        private String categoryName;
+        private String categoryContent;
         /**
-         * categoryId : 7
-         * categoryName : 商城资讯
-         * categoryContent : 商城资讯分类介绍
+         * helpId : 14
+         * title : 常用贴片电阻阻值表
+         * descriptions : 常用贴片电阻阻值表
+         * createdAt : 1477030799
          */
 
-        private List<CategorysEntity> categorys;
+        private List<HelpsBean> helps;
 
         public int getRes() {
             return res;
@@ -65,41 +44,74 @@ public class GetArticleCategoryResponseBean {
             this.res = res;
         }
 
-        public List<CategorysEntity> getCategorys() {
-            return categorys;
+        public int getCategoryId() {
+            return categoryId;
         }
 
-        public void setCategorys(List<CategorysEntity> categorys) {
-            this.categorys = categorys;
+        public void setCategoryId(int categoryId) {
+            this.categoryId = categoryId;
         }
 
-        public static class CategorysEntity {
-            private int categoryId;
-            private String categoryName;
-            private String categoryContent;
+        public String getCategoryName() {
+            return categoryName;
+        }
 
-            public int getCategoryId() {
-                return categoryId;
+        public void setCategoryName(String categoryName) {
+            this.categoryName = categoryName;
+        }
+
+        public String getCategoryContent() {
+            return categoryContent;
+        }
+
+        public void setCategoryContent(String categoryContent) {
+            this.categoryContent = categoryContent;
+        }
+
+        public List<HelpsBean> getHelps() {
+            return helps;
+        }
+
+        public void setHelps(List<HelpsBean> helps) {
+            this.helps = helps;
+        }
+
+        public static class HelpsBean {
+            private int helpId;
+            private String title;
+            private String descriptions;
+            private String createdAt;
+
+            public int getHelpId() {
+                return helpId;
             }
 
-            public void setCategoryId(int categoryId) {
-                this.categoryId = categoryId;
+            public void setHelpId(int helpId) {
+                this.helpId = helpId;
             }
 
-            public String getCategoryName() {
-                return categoryName;
+            public String getTitle() {
+                return title;
             }
 
-            public void setCategoryName(String categoryName) {
-                this.categoryName = categoryName;
+            public void setTitle(String title) {
+                this.title = title;
             }
 
-            public String getCategoryContent() {
-                return categoryContent;
+            public String getDescriptions() {
+                return descriptions;
             }
 
-            public void setCategoryContent(String categoryContent) {
-                this.categoryContent = categoryContent;
+            public void setDescriptions(String descriptions) {
+                this.descriptions = descriptions;
+            }
+
+            public String getCreatedAt() {
+                return createdAt;
+            }
+
+            public void setCreatedAt(String createdAt) {
+                this.createdAt = createdAt;
             }
         }
     }

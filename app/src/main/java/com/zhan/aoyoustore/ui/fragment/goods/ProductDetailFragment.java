@@ -26,33 +26,12 @@ import com.zhan.framework.utils.PixelUtils;
 import java.util.ArrayList;
 
 /**
- * 作者：伍岳 on 2016/7/11 20:29
- * 邮箱：wuyue8512@163.com
- * //
- * //         .............................................
- * //                  美女坐镇                  BUG辟易
- * //         .............................................
- * //
- * //                       .::::.
- * //                     .::::::::.
- * //                    :::::::::::
- * //                 ..:::::::::::'
- * //              '::::::::::::'
- * //                .::::::::::
- * //           '::::::::::::::..
- * //                ..::::::::::::.
- * //              ``::::::::::::::::
- * //               ::::``:::::::::'        .:::.
- * //              ::::'   ':::::'       .::::::::.
- * //            .::::'      ::::     .:::::::'::::.
- * //           .:::'       :::::  .:::::::::' ':::::.
- * //          .::'        :::::.:::::::::'      ':::::.
- * //         .::'         ::::::::::::::'         ``::::.
- * //     ...:::           ::::::::::::'              ``::.
- * //    ```` ':.          ':::::::::'                  ::::..
- * //                       '.:::::'                    ':'````..
- * //
+ * /**
+ * 作者：蒲柯柯 on 2016/7/11 20:29
+ * 邮箱：983198505@qq.com
+ * 介绍:商品列表
  */
+
 public class ProductDetailFragment extends ABaseFragment {
 
     private final static String ARG_KEY = "arg_key";
@@ -101,6 +80,10 @@ public class ProductDetailFragment extends ABaseFragment {
 
     @ViewInject(id = R.id.product_pic_content)
     LinearLayout mViewProductPics;
+
+    @ViewInject(id = R.id.tv_addCart,click = "OnClick")
+    TextView mTvAddCart;
+
     //Data
     private int mProductId;
     private ArrayList<String> mPruductPhotos = new ArrayList<>();
@@ -255,6 +238,9 @@ public class ProductDetailFragment extends ABaseFragment {
                     mViewProductSkusContent.setVisibility(View.VISIBLE);
                     mViewProductSkusTitle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.arrow_down_small), null);
                 }
+                break;
+            case R.id.tv_addCart:
+
                 break;
         }
     }

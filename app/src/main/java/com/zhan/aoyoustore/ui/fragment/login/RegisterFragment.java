@@ -25,29 +25,6 @@ import com.zhan.framework.utils.ToastUtils;
 /**
  * 作者：keke on 2016/7/25 10:23
  * //
- * //         .............................................
- * //                  美女坐镇                  BUG辟易
- * //         .............................................
- * //
- * //                       .::::.
- * //                     .::::::::.
- * //                    :::::::::::
- * //                 ..:::::::::::'
- * //              '::::::::::::'
- * //                .::::::::::
- * //           '::::::::::::::..
- * //                ..::::::::::::.
- * //              ``::::::::::::::::
- * //               ::::``:::::::::'        .:::.
- * //              ::::'   ':::::'       .::::::::.
- * //            .::::'      ::::     .:::::::'::::.
- * //           .:::'       :::::  .:::::::::' ':::::.
- * //          .::'        :::::.:::::::::'      ':::::.
- * //         .::'         ::::::::::::::'         ``::::.
- * //     ...:::           ::::::::::::'              ``::.
- * //    ```` ':.          ':::::::::'                  ::::..
- * //                       '.:::::'                    ':'````..
- * //
  */
 public class RegisterFragment extends ABaseFragment{
     @ViewInject(id = R.id.register_user_name)
@@ -125,11 +102,22 @@ public class RegisterFragment extends ABaseFragment{
                         user.setBalance(result.getResult().getBalance());
                         user.setHasBalance(result.getResult().getHasBalance());
                         user.setFrozenBalance(result.getResult().getFrozenBalance());
-                        //user.setGoldValue(result.getResult().getGoldValue());
-                        //user.setFrozenGoldValue(result.getResult().getFrozenGoldValue());
-                        user.setUserType(result.getResult().getUserType());
-                        //user.setExpiredDate(result.getResult().getExpiredDate());
+                        user.setEmail(result.getResult().getEmail());
+                        user.setMobile(result.getResult().getMobile());
+                        user.setCompanyName(result.getResult().getCompanyName());
+                        user.setCompanyType(result.getResult().getCompanyType());
+                        user.setCompanyJob(result.getResult().getCompanyJob());
+                        user.setCompanySite(result.getResult().getCompanySite());
+                        user.setTelPhone(result.getResult().getTelPhone());
+                        user.setFax(result.getResult().getFax());
                         user.setReferralStatus(result.getResult().getReferralStatus());
+                        user.setProvince(result.getResult().getProvince());
+                        user.setCity(result.getResult().getCity());
+                        user.setDistrict(result.getResult().getDistrict());
+                        user.setAddress(result.getResult().getAddress());
+                        user.setQq(result.getResult().getQq());
+                        user.setMsn(result.getResult().getMsn());
+                        user.setWangWang(result.getResult().getWangWang());
                         user.setIsLogin(true);
                         UserInfo.saveLoginUserInfo(user);
 

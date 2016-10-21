@@ -17,17 +17,159 @@ public class UserInfo extends BasePersistObject {
     private int waitPayCount;
     private int waitFinishCount;
     private int orderNumber;
-    private int expenditure;
+    private double expenditure;
     private int points;
     private int gender;
     private String picture;
     private int couponsCount;
     private boolean IsOpenBalance;
-    private int balance;
-    private int hasBalance;
-    private int frozenBalance;
-    private String userType;
+    private double balance;
+    private double hasBalance;
+    private double frozenBalance;
+    private String email;
+    private String mobile;
+    private String companyName;
+    private String companyType;
+    private String companyJob;
+    private String companySite;
+    private String telPhone;
+    private String fax;
     private String ReferralStatus;
+    private String province;
+    private String city;
+    private String district;
+    private String address;
+    private String qq;
+    private String msn;
+    private String wangWang;
+
+    public void setLogin(boolean login) {
+        isLogin = login;
+    }
+
+    public void setOpenBalance(boolean openBalance) {
+        IsOpenBalance = openBalance;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getCompanyType() {
+        return companyType;
+    }
+
+    public void setCompanyType(String companyType) {
+        this.companyType = companyType;
+    }
+
+    public String getCompanyJob() {
+        return companyJob;
+    }
+
+    public void setCompanyJob(String companyJob) {
+        this.companyJob = companyJob;
+    }
+
+    public String getCompanySite() {
+        return companySite;
+    }
+
+    public void setCompanySite(String companySite) {
+        this.companySite = companySite;
+    }
+
+    public String getTelPhone() {
+        return telPhone;
+    }
+
+    public void setTelPhone(String telPhone) {
+        this.telPhone = telPhone;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getMsn() {
+        return msn;
+    }
+
+    public void setMsn(String msn) {
+        this.msn = msn;
+    }
+
+    public String getWangWang() {
+        return wangWang;
+    }
+
+    public void setWangWang(String wangWang) {
+        this.wangWang = wangWang;
+    }
 
     public boolean isLogin() {
         return isLogin;
@@ -125,11 +267,11 @@ public class UserInfo extends BasePersistObject {
         this.orderNumber = orderNumber;
     }
 
-    public int getExpenditure() {
+    public double getExpenditure() {
         return expenditure;
     }
 
-    public void setExpenditure(int expenditure) {
+    public void setExpenditure(double expenditure) {
         this.expenditure = expenditure;
     }
 
@@ -173,36 +315,28 @@ public class UserInfo extends BasePersistObject {
         IsOpenBalance = isOpenBalance;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
-    public int getHasBalance() {
+    public double getHasBalance() {
         return hasBalance;
     }
 
-    public void setHasBalance(int hasBalance) {
+    public void setHasBalance(double hasBalance) {
         this.hasBalance = hasBalance;
     }
 
-    public int getFrozenBalance() {
+    public double getFrozenBalance() {
         return frozenBalance;
     }
 
-    public void setFrozenBalance(int frozenBalance) {
+    public void setFrozenBalance(double frozenBalance) {
         this.frozenBalance = frozenBalance;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
     }
 
     public String getReferralStatus() {
