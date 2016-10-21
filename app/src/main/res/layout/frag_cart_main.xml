@@ -17,7 +17,7 @@
             android:layout_centerVertical="true"
             android:gravity="center"
             android:text="购物车"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <TextView
@@ -30,16 +30,16 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:gravity="center"
-            android:text="编辑"
-            android:textColor="@drawable/text_color_black_selector"
+            android:text="添加商品"
+            android:textColor="@color/text_color_white_selector"
             android:textSize="18sp" />
 
-        <View
+        <!--<View
             android:id="@+id/underline"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/divider_color" />
+            android:background="@color/divider_color" />-->
     </RelativeLayout>
 
     <LinearLayout
@@ -49,102 +49,78 @@
         android:layout_below="@id/card_header"
         android:orientation="vertical">
 
-        <com.handmark.pulltorefresh.library.PullToRefreshExpandableListView
-            android:id="@+id/my_order_list"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <CheckBox
+                android:id="@+id/ck_sel_all"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="全选"
+                android:textColor="@color/text_color_content"
+                android:textSize="@dimen/text_size_normal" />
+
+            <TextView
+                android:id="@+id/submit"
+                android:layout_width="100dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="#FE5400"
+                android:gravity="center"
+                android:text="创建订单"
+                android:textColor="@color/text_color_white_selector"
+                android:textSize="@dimen/text_size_normal" />
+
+            <TextView
+                android:id="@+id/totalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/submit"
+                android:layout_toStartOf="@id/submit"
+                android:text="￥100.5"
+                android:textColor="@color/comm_red"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/totalPrice"
+                android:layout_toStartOf="@id/totalPrice"
+                android:text="商品总价(人民币)："
+                android:textColor="@color/text_color_title"
+                android:textSize="@dimen/text_size_small" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_color" />
+
+        <com.handmark.pulltorefresh.library.PullToRefreshListView
+            android:id="@+id/pull_refresh_list"
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="fill_parent"
             android:cacheColorHint="#00000000"
             android:divider="@null"
-            android:dividerHeight="0dip"
+            android:dividerHeight="16dip"
             android:fadingEdge="none"
             android:fastScrollEnabled="false"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"
             android:listSelector="?attr/selectableItemBackground"
             android:smoothScrollbar="true" />
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#dedede">
-
-            <CheckBox
-                android:id="@+id/sel_all_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:text="全部" />
-
-            <TextView
-                android:id="@+id/to_pay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="#989898"
-                android:gravity="center"
-                android:minHeight="56dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:text="去结算"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_normal" />
-
-            <TextView
-                android:id="@+id/all_product_total_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_toLeftOf="@id/to_pay"
-                android:text="总计:￥0.00"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/all_product_total_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/all_product_total_price"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_toLeftOf="@id/to_pay"
-                android:text="0件不含运费"
-                android:textColor="@color/text_color_sub" />
-
-            <TextView
-                android:id="@+id/delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@color/blue"
-                android:gravity="center"
-                android:minHeight="56dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:text=" 删除 "
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_normal" />
-
-            <TextView
-                android:id="@+id/move_to_fav"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/delete"
-                android:background="@color/colorSub"
-                android:gravity="center"
-                android:minHeight="56dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:text="移至收藏夹"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_normal" />
-        </RelativeLayout>
     </LinearLayout>
 
     <include
