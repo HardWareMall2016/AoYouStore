@@ -60,8 +60,8 @@ public class LoginFragment extends ABaseFragment {
 
     @ViewInject(id = R.id.register,click = "OnClick")
     TextView mRegister ;
-    @ViewInject(id = R.id.login_find_psword,click = "OnClick")
-    TextView mFindPsword ;
+   // @ViewInject(id = R.id.login_find_psword,click = "OnClick")
+   // TextView mFindPsword ;
     @ViewInject(id = R.id.btn_login, click = "OnClick")
     Button mBtnLogin;
     @ViewInject(id = R.id.login_phone_number)
@@ -145,9 +145,9 @@ public class LoginFragment extends ABaseFragment {
             case R.id.register:
                 RegisterPhoneFragment.launch(getActivity());
                 break;
-            case R.id.login_find_psword:
-                FindPswordFragment.launch(getActivity());
-                break;
+//            case R.id.login_find_psword:
+//                FindPswordFragment.launch(getActivity());
+//                break;
         }
 
     }

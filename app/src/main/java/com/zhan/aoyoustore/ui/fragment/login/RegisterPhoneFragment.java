@@ -79,16 +79,16 @@ public class RegisterPhoneFragment extends ABaseFragment {
 
     @Override
     protected void layoutInit(LayoutInflater inflater, Bundle savedInstanceSate) {
-        getActivity().setTitle("手机快速注册");
-        ActionBarActivity actionBarActivity = (ActionBarActivity) getActivity();
-        TextView rightMenu = actionBarActivity.getActionBarRightMenu();
-        rightMenu.setText("注册");
-        rightMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RegisterFragment.launch(getActivity());
-            }
-        });
+        getActivity().setTitle("注册");
+//        ActionBarActivity actionBarActivity = (ActionBarActivity) getActivity();
+//        TextView rightMenu = actionBarActivity.getActionBarRightMenu();
+//        rightMenu.setText("注册");
+//        rightMenu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                RegisterFragment.launch(getActivity());
+//            }
+//        });
     }
 
     @Override
