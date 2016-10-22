@@ -100,6 +100,15 @@ public class RegisterResponseBean {
         private String qq;
         private String msn;
         private String wangWang;
+        private String userCode;
+
+        public String getUserCode() {
+            return userCode;
+        }
+
+        public void setUserCode(String userCode) {
+            this.userCode = userCode;
+        }
 
         public int getRes() {
             return res;

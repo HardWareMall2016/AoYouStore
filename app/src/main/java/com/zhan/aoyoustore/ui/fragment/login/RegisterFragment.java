@@ -118,6 +118,7 @@ public class RegisterFragment extends ABaseFragment{
                         user.setQq(result.getResult().getQq());
                         user.setMsn(result.getResult().getMsn());
                         user.setWangWang(result.getResult().getWangWang());
+                        user.setUserCode(result.getResult().getUserCode());
                         user.setIsLogin(true);
                         UserInfo.saveLoginUserInfo(user);
 

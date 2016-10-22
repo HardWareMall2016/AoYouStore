@@ -42,6 +42,16 @@ public class UserInfo extends BasePersistObject {
     private String qq;
     private String msn;
     private String wangWang;
+    private String userCode;
+
+    public String getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
+    }
+
 
     public void setLogin(boolean login) {
         isLogin = login;
