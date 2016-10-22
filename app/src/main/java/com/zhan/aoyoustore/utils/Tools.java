@@ -489,6 +489,13 @@ public class Tools {
         return true;
     }
 
+    public static  boolean isLogin(){
+        if (UserInfo.getCurrentUser() == null || !UserInfo.getCurrentUser().isLogin()) {
+            return false;
+        }
+        return true;
+    }
+
     public static Dialog showDialogFromBottom(Activity activity, int dialogLayout, boolean showSoftInput) {
         Dialog dialog = new Dialog(activity, com.zhan.framework.R.style.Dialog);
         dialog.setContentView(dialogLayout);

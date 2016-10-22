@@ -3,6 +3,7 @@ package com.zhan.aoyoustore.ui.fragment.goods;
 import android.animation.LayoutTransition;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,10 @@ import com.zhan.aoyoustore.base.BaseResponseBean;
 import com.zhan.aoyoustore.base.UserInfo;
 import com.zhan.aoyoustore.beans.GetProductDetailResponseBean;
 import com.zhan.aoyoustore.network.ApiUrls;
+import com.zhan.aoyoustore.ui.activity.MainActivity;
 import com.zhan.aoyoustore.ui.fragment.common.PhotosFragment;
+import com.zhan.aoyoustore.ui.fragment.login.LoginFragment;
+import com.zhan.aoyoustore.ui.fragment.shoppingCart.CartMain;
 import com.zhan.aoyoustore.utils.Tools;
 import com.zhan.framework.component.container.FragmentArgs;
 import com.zhan.framework.component.container.FragmentContainerActivity;
@@ -250,8 +254,10 @@ public class ProductDetailFragment extends ABaseFragment {
                 }
                 break;
             case R.id.tv_addCart:
-                if(Tools.checkIsLogin(getActivity())){
+                if(Tools.isLogin()){
                     showAddCardDialog();
+                }else{
+                    LoginFragment.launchWithoutBackMainActivity(getActivity());
                 }
                 break;
         }
@@ -344,7 +350,10 @@ public class ProductDetailFragment extends ABaseFragment {
                         if(responseBean!=null){
                             dismissAddCardDialog();
                             if(goToCardList){
-
+                                Intent homePageIntent = new Intent(getActivity(), MainActivity.class);
+                                homePageIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                homePageIntent.putExtra(MainActivity.EXT_KEY_SHOW_PAGE,CartMain.class.getSimpleName());
+                                startActivity(homePageIntent);
                             }
                         }
                         break;

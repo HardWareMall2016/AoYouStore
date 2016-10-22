@@ -20,6 +20,7 @@ import com.zhan.aoyoustore.beans.LoginResponseBean;
 import com.zhan.aoyoustore.network.ApiUrls;
 import com.zhan.aoyoustore.ui.activity.MainActivity;
 import com.zhan.aoyoustore.utils.Tools;
+import com.zhan.framework.component.container.FragmentArgs;
 import com.zhan.framework.component.container.SingleTopFragmentContainerActivity;
 import com.zhan.framework.network.HttpRequestParams;
 import com.zhan.framework.network.HttpRequestUtils;
@@ -34,6 +35,7 @@ import com.zhan.framework.utils.ToastUtils;
  //
  */
 public class LoginFragment extends ABaseFragment {
+    private final static String ARG_KEY_CLEAR_TOP = "clear_top";
 
     @ViewInject(id = R.id.register,click = "OnClick")
     TextView mRegister ;
@@ -46,12 +48,35 @@ public class LoginFragment extends ABaseFragment {
     @ViewInject(id = R.id.login_password)
     EditText mLoginPsw ;
 
+    //Data
+    private boolean mClearTop=false;
     private String userName;
     private String password ;
 
     public static void launch(Activity from) {
-        SingleTopFragmentContainerActivity.launch(from, LoginFragment.class, null);
+        FragmentArgs args = new FragmentArgs();
+        args.add(ARG_KEY_CLEAR_TOP, true);
+        SingleTopFragmentContainerActivity.launch(from, LoginFragment.class, args);
     }
+
+    public static void launchWithoutBackMainActivity(Activity from) {
+        FragmentArgs args = new FragmentArgs();
+        args.add(ARG_KEY_CLEAR_TOP, false);
+        SingleTopFragmentContainerActivity.launch(from, LoginFragment.class, args);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mClearTop = savedInstanceState == null ? (boolean) getArguments().getSerializable(ARG_KEY_CLEAR_TOP) : (boolean) savedInstanceState.getSerializable(ARG_KEY_CLEAR_TOP);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(ARG_KEY_CLEAR_TOP, mClearTop);
+    }
+
 
     @Override
     protected void layoutInit(LayoutInflater inflater, Bundle savedInstanceSate) {
@@ -193,9 +218,12 @@ public class LoginFragment extends ABaseFragment {
                 user.setIsLogin(true);
                 UserInfo.saveLoginUserInfo(user);
 
-                Intent homePageIntent = new Intent(getActivity(), MainActivity.class);
-                homePageIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(homePageIntent);
+                if(mClearTop){
+                    Intent homePageIntent = new Intent(getActivity(), MainActivity.class);
+                    homePageIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(homePageIntent);
+                }
+
                 getActivity().finish();
             }
         }, HttpRequestUtils.RequestType.POST);
