@@ -53,9 +53,19 @@ public abstract class HttpRequestHandler implements HttpRequestCallback {
 
     private String mApiUrl;
     private Object mRequestParams;
+    private Object mTag;
 
     public HttpRequestHandler(Fragment fragment){
         mFragment=fragment;
+    }
+
+    public HttpRequestHandler(Fragment fragment,Object tag){
+        mFragment=fragment;
+        mTag=tag;
+    }
+
+    public Object getTag(){
+        return mTag;
     }
 
     /**

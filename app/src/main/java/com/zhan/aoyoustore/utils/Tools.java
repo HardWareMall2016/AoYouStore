@@ -40,6 +40,7 @@ import com.zhan.framework.utils.ToastUtils;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -502,6 +503,16 @@ public class Tools {
         dialog.show();
 
         return dialog;
+    }
+
+    public static String formatNumber(double value){
+        DecimalFormat nf = new DecimalFormat("##.##");
+        return nf.format(value);
+    }
+
+    public static String formatNumberWithMoney(double value){
+        DecimalFormat nf = new DecimalFormat("￥###,###,###.##");
+        return nf.format(value);
     }
 
 }
