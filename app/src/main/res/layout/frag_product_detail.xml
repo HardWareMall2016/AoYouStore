@@ -166,22 +166,25 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="收藏"
                     android:layout_margin="16dp"
+                    android:text="收藏"
                     android:textColor="@color/text_color_title"
                     android:textSize="@dimen/text_size_normal" />
+
                 <TextView
                     android:id="@+id/tv_addCart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="添加购物车"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
                     android:layout_margin="16dp"
+                    android:text="添加购物车"
                     android:textColor="@color/text_color_title"
-                    android:textSize="@dimen/text_size_normal"
-                    android:layout_alignParentRight="true"/>
+                    android:textSize="@dimen/text_size_normal" />
 
             </RelativeLayout>
 
@@ -203,7 +206,7 @@
                 android:id="@+id/product_skus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
+                android:orientation="vertical" />
         </LinearLayout>
     </ScrollView>
 

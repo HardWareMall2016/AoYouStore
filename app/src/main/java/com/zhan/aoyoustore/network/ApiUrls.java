@@ -55,8 +55,6 @@ public class ApiUrls {
     //获取帮助详情内容
     public static final String GET_HELPS_INFO = "getHelpInfoById.ashx";
 
-
-
     //获取商城分类
     public static final String GET_ARTICLE_CATEGORYS = "getArticleCategorys.ashx";
     //获取分类下所有文章内容
@@ -75,4 +73,5 @@ public class ApiUrls {
     public static final String SET_SHOPPING_CART_QUANTITY = "setShoppingCartQuantity.ashx";
     //删除购物车商品
     public static final String DEL_CART_ITEM = "delCartItem.ashx";
+
 }
