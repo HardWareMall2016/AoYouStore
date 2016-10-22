@@ -206,9 +206,12 @@
                 android:id="@+id/tv_quit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="退出"
+                android:text="注销登录"
+                android:textColor="@color/white"
                 android:padding="10dp"
-                android:background="@drawable/bg_white_underline_selector"/>
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:background="@color/blue"/>
 
         </LinearLayout>
     </ScrollView>
