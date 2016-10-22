@@ -8,6 +8,7 @@
     <dimen name="min_item_height">48dp</dimen>
 
     <dimen name="bbuton_rounded_corner_radius">6dp</dimen>
+    <dimen name="button_rounded_corner_radius">6dp</dimen>
 
     <!-- 系统字体大小 -->
     <!-- 56px #494949 -->

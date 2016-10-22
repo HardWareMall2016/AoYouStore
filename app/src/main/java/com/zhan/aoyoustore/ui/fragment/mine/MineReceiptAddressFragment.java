@@ -28,6 +28,6 @@ public class MineReceiptAddressFragment extends ABaseFragment {
     protected void layoutInit(LayoutInflater inflater, Bundle savedInstanceSate) {
         super.layoutInit(inflater, savedInstanceSate);
         mInflater = inflater;
-        getActivity().setTitle("修改地址");
+        getActivity().setTitle("管理收货地址");
     }
 }

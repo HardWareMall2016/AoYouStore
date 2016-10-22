@@ -9,11 +9,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.zhan.aoyoustore.R;
 import com.zhan.aoyoustore.base.UserInfo;
 import com.zhan.aoyoustore.ui.activity.MainActivity;
+import com.zhan.aoyoustore.utils.Tools;
+import com.zhan.framework.common.setting.SettingUtility;
 import com.zhan.framework.support.inject.ViewInject;
 import com.zhan.framework.ui.fragment.ABaseFragment;
+import com.zhan.framework.ui.widget.RippleButton;
+import com.zhan.framework.utils.Consts;
 import com.zhan.framework.utils.ToastUtils;
 
 /**
@@ -22,6 +27,18 @@ import com.zhan.framework.utils.ToastUtils;
  * 介绍:会员中心
  */
 public class MineMain extends ABaseFragment {
+
+    @ViewInject(id = R.id.tv_user_code)
+    TextView mTvUserCode;
+
+    @ViewInject(id = R.id.mine_photo)
+    ImageView mViewHeadPortrait;
+
+    @ViewInject(id = R.id.Tv_gradename)
+    TextView mTvGradeName;
+
+    @ViewInject(id = R.id.tv_membername)
+    TextView mTvMemberName;
 
     @ViewInject(id = R.id.tv_edit_person,click = "OnClick")
     TextView mTvEditPerson;
@@ -45,7 +62,7 @@ public class MineMain extends ABaseFragment {
     TextView mTvContact;
 
     @ViewInject(id = R.id.tv_quit,click = "OnClick")
-    TextView mTvQuit;
+    RippleButton mTvQuit;
 
     @ViewInject(id = R.id.rl_account,click = "OnClick")
     RelativeLayout mRlAccount;
@@ -77,6 +94,21 @@ public class MineMain extends ABaseFragment {
         super.layoutInit(inflater, savedInstanceSate);
         mInflater = inflater;
         getActivity().setTitle("会员中心");
+
+        ImageLoader.getInstance().displayImage(UserInfo.getCurrentUser().getPicture(), mViewHeadPortrait, Tools.buildDisplayImageOptionsForAvatar());
+//        int UserPoint = UserInfo.getCurrentUser().getPoints();
+//        if(UserPoint < 100001){
+//            mTvGradeName.setText("会员等级：铜牌");
+//        }else if(UserPoint >100000 && UserPoint <500001){
+//            mTvGradeName.setText("会员等级：银牌");
+//        }else if(UserPoint > 500000 && UserPoint < 2000001){
+//            mTvGradeName.setText("会员等级：金牌");
+//        }else{
+//            mTvGradeName.setText("会员等级：钻石");
+//        }
+        mTvUserCode.setText("客户编号："+UserInfo.getCurrentUser().getUid());
+        mTvGradeName.setText("会员等级："+UserInfo.getCurrentUser().getGradeName());
+        mTvMemberName.setText("会员名称："+UserInfo.getCurrentUser().getNickName());
     }
 
     void OnClick(View view){
