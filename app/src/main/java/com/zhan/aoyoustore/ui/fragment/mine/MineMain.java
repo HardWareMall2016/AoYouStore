@@ -106,7 +106,7 @@ public class MineMain extends ABaseFragment {
 //        }else{
 //            mTvGradeName.setText("会员等级：钻石");
 //        }
-        mTvUserCode.setText("客户编号："+UserInfo.getCurrentUser().getUid());
+        mTvUserCode.setText("客户编号："+UserInfo.getCurrentUser().getUserCode());
         mTvGradeName.setText("会员等级："+UserInfo.getCurrentUser().getGradeName());
         mTvMemberName.setText("会员名称："+UserInfo.getCurrentUser().getNickName());
     }
