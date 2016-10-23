@@ -162,39 +162,11 @@
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
             </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
-                    android:text="收藏"
-                    android:textColor="@color/text_color_title"
-                    android:textSize="@dimen/text_size_normal" />
-
-                <TextView
-                    android:id="@+id/tv_addCart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_margin="16dp"
-                    android:text="添加购物车"
-                    android:textColor="@color/text_color_title"
-                    android:textSize="@dimen/text_size_normal" />
-
-            </RelativeLayout>
-
             <TextView
-                android:id="@+id/product_skus_title"
+                android:id="@+id/product_sku"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/divider_color"
-                android:drawableEnd="@drawable/arrow_up_small"
-                android:drawableRight="@drawable/arrow_up_small"
                 android:gravity="center_vertical"
                 android:minHeight="40dp"
                 android:padding="8dp"
@@ -203,7 +175,71 @@
                 android:textSize="@dimen/text_size_normal" />
 
             <LinearLayout
-                android:id="@+id/product_skus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/product_sku_types"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:minHeight="40dp"
+                        android:orientation="horizontal"
+                        android:padding="8dp" />
+                </HorizontalScrollView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:padding="8dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/stockNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="数量:500/2000"
+                        android:textColor="@color/text_color_content"
+                        android:textSize="@dimen/text_size_normal" />
+
+                    <TextView
+                        android:id="@+id/tv_addCart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:text="添加购物车"
+                        android:textColor="@color/text_color_title"
+                        android:textSize="@dimen/text_size_normal" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/product_sku_ladders_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/product_ext_info_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/divider_color"
+                android:drawableEnd="@drawable/arrow_up_small"
+                android:drawableRight="@drawable/arrow_up_small"
+                android:gravity="center_vertical"
+                android:minHeight="40dp"
+                android:padding="8dp"
+                android:text="产品属性"
+                android:textColor="@color/text_color_title"
+                android:textSize="@dimen/text_size_normal" />
+
+            <LinearLayout
+                android:id="@+id/product_ext_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />

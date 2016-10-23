@@ -36,8 +36,13 @@ public class MainActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if ((Intent.FLAG_ACTIVITY_CLEAR_TOP & intent.getFlags()) != 0) {
-            //退出跳转到主页,强制刷新主页
-            showFirstPage();
+            String showPage = intent.getStringExtra(EXT_KEY_SHOW_PAGE);
+            if (TextUtils.isEmpty(showPage)) {
+                //退出跳转到主页,强制刷新主页
+                showFirstPage();
+            } else {
+                showPage(showPage);
+            }
         }
     }
 

@@ -32,6 +32,34 @@ import java.util.List;
  */
 public class GetProductDetailResponseBean {
 
+    /**
+     * res : 1
+     * isOpenSale : true
+     * productid : 5889
+     * productName : TAJE107M025RNJ
+     * productCode : 064-TAJE107M025RNJ
+     * shortDescription : CAP TANT 100UF 25V 20% 2917
+     * descriptions :
+     * saleCounts : 0
+     * weight : 0.0
+     * vistiCounts : 2
+     * costPrice : 0.0
+     * marketPrice : 0.0
+     * isfreeShipping : false
+     * maxSalePrice : 4.5
+     * minSalePrice : 4.5
+     * isFavorite : false
+     * pics : ["http://121.43.111.133:51055/Storage/master/product/images/201609011636499698221.png"]
+     * stock : 4000
+     * brand : AVX Corporation
+     * minBuyNum : 1
+     * skuBook : http://121.43.111.133:51055/Storage/master/product/File/TAJ.pdf
+     * defaultSku : {"CostPrice":0,"LadderPrices":[],"MemberPrices":[],"Ladders":[{"minCount":1,"maxCont":9,"ladderPrice":4.5},{"minCount":10,"maxCont":29,"ladderPrice":3.9},{"minCount":30,"maxCont":100,"ladderPrice":3.65},{"minCount":100,"maxCont":4000,"ladderPrice":3.4}],"ProductId":5889,"SKU":"62824","SalePrice":4.5,"SkuId":"5889_0","SkuItems":[],"Stock":4000,"StoreStock":4000,"WarningStock":200,"Weight":0}
+     * SkuItem : []
+     * skus : [{"CostPrice":0,"LadderPrices":[],"MemberPrices":[],"Ladders":[{"minCount":1,"maxCont":9,"ladderPrice":4.5},{"minCount":10,"maxCont":29,"ladderPrice":3.9},{"minCount":30,"maxCont":100,"ladderPrice":3.65},{"minCount":100,"maxCont":4000,"ladderPrice":3.4}],"ProductId":5889,"SKU":"62824","SalePrice":4.5,"SkuId":"5889_0","SkuItems":[],"Stock":4000,"StoreStock":4000,"WarningStock":200,"Weight":0}]
+     * info : [{"infoName":"特性","infoValue":"通用"},{"infoName":"制造商尺寸代码","infoValue":"E"},{"infoName":"引线间距","infoValue":"-"},{"infoName":"高度-安装（最大值）","infoValue":"4.30mm"},{"infoName":"大小/尺寸","infoValue":"7.30mm x 4.30mm"},{"infoName":"封装/外壳","infoValue":"2917（7343 公制）"},{"infoName":"安装类型","infoValue":"表面贴装"},{"infoName":"工作温度","infoValue":"-55°C ~ 125°C"},{"infoName":"类型","infoValue":"模制"},{"infoName":"ESR(等效串联电阻）","infoValue":"300毫欧"},{"infoName":"电压-额定","infoValue":"25V"},{"infoName":"容差","infoValue":"20%"},{"infoName":"电容","infoValue":"100µF"},{"infoName":"系列","infoValue":"TAJ"}]
+     */
+
     private ResultBean result;
 
     public ResultBean getResult() {
@@ -59,13 +87,50 @@ public class GetProductDetailResponseBean {
         private double maxSalePrice;
         private double minSalePrice;
         private boolean isFavorite;
+        private int stock;
+        private String brand;
+        private int minBuyNum;
+        private String skuBook;
+        /**
+         * CostPrice : 0.0
+         * LadderPrices : []
+         * MemberPrices : []
+         * Ladders : [{"minCount":1,"maxCont":9,"ladderPrice":4.5},{"minCount":10,"maxCont":29,"ladderPrice":3.9},{"minCount":30,"maxCont":100,"ladderPrice":3.65},{"minCount":100,"maxCont":4000,"ladderPrice":3.4}]
+         * ProductId : 5889
+         * SKU : 62824
+         * SalePrice : 4.5
+         * SkuId : 5889_0
+         * SkuItems : []
+         * Stock : 4000
+         * StoreStock : 4000
+         * WarningStock : 200
+         * Weight : 0.0
+         */
 
         private DefaultSkuBean defaultSku;
-        private int stock;
         private List<String> pics;
         private List<?> SkuItem;
+        /**
+         * CostPrice : 0.0
+         * LadderPrices : []
+         * MemberPrices : []
+         * Ladders : [{"minCount":1,"maxCont":9,"ladderPrice":4.5},{"minCount":10,"maxCont":29,"ladderPrice":3.9},{"minCount":30,"maxCont":100,"ladderPrice":3.65},{"minCount":100,"maxCont":4000,"ladderPrice":3.4}]
+         * ProductId : 5889
+         * SKU : 62824
+         * SalePrice : 4.5
+         * SkuId : 5889_0
+         * SkuItems : []
+         * Stock : 4000
+         * StoreStock : 4000
+         * WarningStock : 200
+         * Weight : 0.0
+         */
 
         private List<SkusBean> skus;
+        /**
+         * infoName : 特性
+         * infoValue : 通用
+         */
 
         private List<InfoBean> info;
 
@@ -197,20 +262,44 @@ public class GetProductDetailResponseBean {
             this.isFavorite = isFavorite;
         }
 
-        public DefaultSkuBean getDefaultSku() {
-            return defaultSku;
-        }
-
-        public void setDefaultSku(DefaultSkuBean defaultSku) {
-            this.defaultSku = defaultSku;
-        }
-
         public int getStock() {
             return stock;
         }
 
         public void setStock(int stock) {
             this.stock = stock;
+        }
+
+        public String getBrand() {
+            return brand;
+        }
+
+        public void setBrand(String brand) {
+            this.brand = brand;
+        }
+
+        public int getMinBuyNum() {
+            return minBuyNum;
+        }
+
+        public void setMinBuyNum(int minBuyNum) {
+            this.minBuyNum = minBuyNum;
+        }
+
+        public String getSkuBook() {
+            return skuBook;
+        }
+
+        public void setSkuBook(String skuBook) {
+            this.skuBook = skuBook;
+        }
+
+        public DefaultSkuBean getDefaultSku() {
+            return defaultSku;
+        }
+
+        public void setDefaultSku(DefaultSkuBean defaultSku) {
+            this.defaultSku = defaultSku;
         }
 
         public List<String> getPics() {
@@ -257,6 +346,13 @@ public class GetProductDetailResponseBean {
             private double Weight;
             private List<?> LadderPrices;
             private List<?> MemberPrices;
+            /**
+             * minCount : 1
+             * maxCont : 9
+             * ladderPrice : 4.5
+             */
+
+            private List<LaddersBean> Ladders;
             private List<?> SkuItems;
 
             public double getCostPrice() {
@@ -347,12 +443,50 @@ public class GetProductDetailResponseBean {
                 this.MemberPrices = MemberPrices;
             }
 
+            public List<LaddersBean> getLadders() {
+                return Ladders;
+            }
+
+            public void setLadders(List<LaddersBean> Ladders) {
+                this.Ladders = Ladders;
+            }
+
             public List<?> getSkuItems() {
                 return SkuItems;
             }
 
             public void setSkuItems(List<?> SkuItems) {
                 this.SkuItems = SkuItems;
+            }
+
+            public static class LaddersBean {
+                private int minCount;
+                private int maxCont;
+                private double ladderPrice;
+
+                public int getMinCount() {
+                    return minCount;
+                }
+
+                public void setMinCount(int minCount) {
+                    this.minCount = minCount;
+                }
+
+                public int getMaxCont() {
+                    return maxCont;
+                }
+
+                public void setMaxCont(int maxCont) {
+                    this.maxCont = maxCont;
+                }
+
+                public double getLadderPrice() {
+                    return ladderPrice;
+                }
+
+                public void setLadderPrice(double ladderPrice) {
+                    this.ladderPrice = ladderPrice;
+                }
             }
         }
 
@@ -368,6 +502,13 @@ public class GetProductDetailResponseBean {
             private double Weight;
             private List<?> LadderPrices;
             private List<?> MemberPrices;
+            /**
+             * minCount : 1
+             * maxCont : 9
+             * ladderPrice : 4.5
+             */
+
+            private List<LaddersBean> Ladders;
             private List<?> SkuItems;
 
             public double getCostPrice() {
@@ -458,12 +599,50 @@ public class GetProductDetailResponseBean {
                 this.MemberPrices = MemberPrices;
             }
 
+            public List<LaddersBean> getLadders() {
+                return Ladders;
+            }
+
+            public void setLadders(List<LaddersBean> Ladders) {
+                this.Ladders = Ladders;
+            }
+
             public List<?> getSkuItems() {
                 return SkuItems;
             }
 
             public void setSkuItems(List<?> SkuItems) {
                 this.SkuItems = SkuItems;
+            }
+
+            public static class LaddersBean {
+                private int minCount;
+                private int maxCont;
+                private double ladderPrice;
+
+                public int getMinCount() {
+                    return minCount;
+                }
+
+                public void setMinCount(int minCount) {
+                    this.minCount = minCount;
+                }
+
+                public int getMaxCont() {
+                    return maxCont;
+                }
+
+                public void setMaxCont(int maxCont) {
+                    this.maxCont = maxCont;
+                }
+
+                public double getLadderPrice() {
+                    return ladderPrice;
+                }
+
+                public void setLadderPrice(double ladderPrice) {
+                    this.ladderPrice = ladderPrice;
+                }
             }
         }
 

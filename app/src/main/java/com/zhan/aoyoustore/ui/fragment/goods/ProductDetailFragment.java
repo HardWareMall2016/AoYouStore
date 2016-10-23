@@ -3,9 +3,12 @@ package com.zhan.aoyoustore.ui.fragment.goods;
 import android.animation.LayoutTransition;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,7 +19,10 @@ import com.zhan.aoyoustore.base.BaseResponseBean;
 import com.zhan.aoyoustore.base.UserInfo;
 import com.zhan.aoyoustore.beans.GetProductDetailResponseBean;
 import com.zhan.aoyoustore.network.ApiUrls;
+import com.zhan.aoyoustore.ui.activity.MainActivity;
 import com.zhan.aoyoustore.ui.fragment.common.PhotosFragment;
+import com.zhan.aoyoustore.ui.fragment.login.LoginFragment;
+import com.zhan.aoyoustore.ui.fragment.shoppingCart.CartMain;
 import com.zhan.aoyoustore.utils.Tools;
 import com.zhan.framework.component.container.FragmentArgs;
 import com.zhan.framework.component.container.FragmentContainerActivity;
@@ -78,14 +84,23 @@ public class ProductDetailFragment extends ABaseFragment {
     @ViewInject(id = R.id.short_description)
     TextView mViewProductShortDescp;
 
-    @ViewInject(id = R.id.product_skus)
-    LinearLayout mViewProductSkusContent;
+    @ViewInject(id = R.id.product_sku_types)
+    LinearLayout mViewProductSkuTypes;
 
-    @ViewInject(id = R.id.product_skus_title, click = "OnClick")
-    TextView mViewProductSkusTitle;
+    @ViewInject(id = R.id.product_ext_info)
+    LinearLayout mViewProductExtInfoContent;
+
+    @ViewInject(id = R.id.product_sku_ladders_content)
+    LinearLayout mViewProductSkuLaddersContent;
+
+    @ViewInject(id = R.id.product_ext_info_title, click = "OnClick")
+    TextView mViewProductExtInfoTitle;
 
     @ViewInject(id = R.id.product_pic_content)
     LinearLayout mViewProductPics;
+
+    @ViewInject(id = R.id.stockNum)
+    TextView mTvStockNum;
 
     @ViewInject(id = R.id.tv_addCart,click = "OnClick")
     TextView mTvAddCart;
@@ -168,12 +183,37 @@ public class ProductDetailFragment extends ABaseFragment {
         mSkus=result.getResult().getSkus();
         populateProductInfo(result);
         populateProductPics(result);
-        populateProductSku(result);
+        populateSkuTabs(result);
+        populateProductExtInfo(result);
+
+        mTvStockNum.setVisibility(View.GONE);
+        mTvAddCart.setVisibility(View.GONE);
+        if (result.getResult().getSkus() == null||result.getResult().getSkus().size()==0) {
+            return;
+        }
+        if(result.getResult().getDefaultSku()==null|| TextUtils.isEmpty(result.getResult().getDefaultSku().getSkuId())){
+            return;
+        }
+
+        mTvStockNum.setVisibility(View.VISIBLE);
+        mTvAddCart.setVisibility(View.VISIBLE);
+
+        GetProductDetailResponseBean.ResultBean.SkusBean defSkus=null;
+        for(GetProductDetailResponseBean.ResultBean.SkusBean skus:result.getResult().getSkus()){
+            if(result.getResult().getDefaultSku().getSkuId().equals(skus.getSkuId())){
+                defSkus=skus;
+                break;
+            }
+        }
+        if(defSkus==null){
+            defSkus=result.getResult().getSkus().get(0);
+        }
+        refreshSkuContent(defSkus);
     }
 
     private void populateProductInfo(GetProductDetailResponseBean result) {
         Tools.setTextView(mViewProductName, result.getResult().getProductName());
-        Tools.setTextView(mViewProductShortDescp, result.getResult().getProductName());
+        Tools.setTextView(mViewProductShortDescp, result.getResult().getShortDescription());
 
         Tools.setTextView(mViewVistiCounts, String.format("浏览次数%d", result.getResult().getVistiCounts()));
         Tools.setTextView(mViewCostPrice, String.format("成本价￥%.2f", result.getResult().getCostPrice()));
@@ -212,16 +252,82 @@ public class ProductDetailFragment extends ABaseFragment {
         }
     }
 
-    private void populateProductSku(GetProductDetailResponseBean result) {
+    private void refreshSkuContent(GetProductDetailResponseBean.ResultBean.SkusBean skus){
+        mTvStockNum.setText(String.format("数量：%d/%d",skus.getStoreStock(),skus.getStock()));
+        mTvAddCart.setTag(skus);
+        populateProductSkuLaddersInfo(skus);
+        for(int i=0;i<mViewProductSkuTypes.getChildCount();i++){
+            TextView tabView= (TextView)mViewProductSkuTypes.getChildAt(i);
+            GetProductDetailResponseBean.ResultBean.SkusBean tabSku=(GetProductDetailResponseBean.ResultBean.SkusBean)tabView.getTag();
+            if(tabSku.getSkuId().equals(skus.getSkuId())){
+                tabView.setBackgroundResource(R.drawable.bg_red_rounded_with_border_selector);
+            }else{
+                tabView.setBackgroundResource(R.drawable.bg_white_rounded_with_border_selector);
+            }
+        }
+    }
+
+    private View.OnClickListener mSkuTabClicked=new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v) {
+            GetProductDetailResponseBean.ResultBean.SkusBean skus=(GetProductDetailResponseBean.ResultBean.SkusBean)v.getTag();
+            refreshSkuContent(skus);
+        }
+    };
+
+    private void populateSkuTabs(GetProductDetailResponseBean result){
+        mViewProductSkuTypes.removeAllViews();
+        if (result.getResult().getSkus() == null||result.getResult().getSkus().size()==0) {
+            return;
+        }
+        for(GetProductDetailResponseBean.ResultBean.SkusBean skus:result.getResult().getSkus()){
+            TextView titleView = (TextView)mInflater.inflate(R.layout.item_product_sku_tab, null);
+            titleView.setTag(skus);
+            titleView.setText(skus.getSKU());
+            LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+            lp.leftMargin=PixelUtils.dp2px(8);
+
+            titleView.setOnClickListener(mSkuTabClicked);
+
+            mViewProductSkuTypes.addView(titleView);
+        }
+    }
+
+    private void populateProductSkuLaddersInfo(GetProductDetailResponseBean.ResultBean.SkusBean skusBean) {
+        mViewProductSkuLaddersContent.removeAllViews();
+        if(skusBean.getLadders()==null||skusBean.getLadders().size()==0){
+            return;
+        }
+
+        View titleView = mInflater.inflate(R.layout.item_product_sku_ladders_item, null);
+        mViewProductSkuLaddersContent.addView(titleView);
+        TextView infoName = (TextView) titleView.findViewById(R.id.info_name);
+        TextView infoValue = (TextView) titleView.findViewById(R.id.info_value);
+        infoName.setText("价格分段");
+        infoValue.setText("单价");
+
+        for (GetProductDetailResponseBean.ResultBean.SkusBean.LaddersBean ladder : skusBean.getLadders()) {
+            View itemView = mInflater.inflate(R.layout.item_product_sku_ladders_item, null);
+            mViewProductSkuLaddersContent.addView(itemView);
+            infoName = (TextView) itemView.findViewById(R.id.info_name);
+            infoValue = (TextView) itemView.findViewById(R.id.info_value);
+
+            infoName.setText(String.format("%d-%d", ladder.getMinCount(), ladder.getMaxCont()));
+            infoValue.setText(Tools.formatNumberWithMoney(ladder.getLadderPrice()));
+        }
+    }
+
+    private void populateProductExtInfo(GetProductDetailResponseBean result) {
         if (result.getResult().getInfo() == null) {
             return;
         }
-        mViewProductSkusContent.removeAllViews();
+        mViewProductExtInfoContent.removeAllViews();
         for (GetProductDetailResponseBean.ResultBean.InfoBean skusBean : result.getResult().getInfo()) {
-            View itemProductSku = mInflater.inflate(R.layout.item_product_sku, null);
-            mViewProductSkusContent.addView(itemProductSku);
-            TextView infoName = (TextView) itemProductSku.findViewById(R.id.info_name);
-            TextView infoValue = (TextView) itemProductSku.findViewById(R.id.info_value);
+            View itemProductInfo = mInflater.inflate(R.layout.item_product_ext_info, null);
+            mViewProductExtInfoContent.addView(itemProductInfo);
+            TextView infoName = (TextView) itemProductInfo.findViewById(R.id.info_name);
+            TextView infoValue = (TextView) itemProductInfo.findViewById(R.id.info_value);
 
             Tools.setTextView(infoName, skusBean.getInfoName());
             Tools.setTextView(infoValue, skusBean.getInfoValue());
@@ -238,20 +344,23 @@ public class ProductDetailFragment extends ABaseFragment {
 
     void OnClick(View v) {
         switch (v.getId()) {
-            case R.id.product_skus_title:
+            case R.id.product_ext_info_title:
                 if (mShowProductSkusContent) {
                     mShowProductSkusContent = false;
-                    mViewProductSkusContent.setVisibility(View.GONE);
-                    mViewProductSkusTitle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.arrow_up_small), null);
+                    mViewProductExtInfoContent.setVisibility(View.GONE);
+                    mViewProductExtInfoTitle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.arrow_up_small), null);
                 } else {
                     mShowProductSkusContent = true;
-                    mViewProductSkusContent.setVisibility(View.VISIBLE);
-                    mViewProductSkusTitle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.arrow_down_small), null);
+                    mViewProductExtInfoContent.setVisibility(View.VISIBLE);
+                    mViewProductExtInfoTitle.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.arrow_down_small), null);
                 }
                 break;
             case R.id.tv_addCart:
-                if(Tools.checkIsLogin(getActivity())){
-                    showAddCardDialog();
+                GetProductDetailResponseBean.ResultBean.SkusBean sku=(GetProductDetailResponseBean.ResultBean.SkusBean)v.getTag();
+                if(Tools.isLogin()){
+                    showAddCardDialog(sku);
+                }else{
+                    LoginFragment.launchWithoutBackMainActivity(getActivity());
                 }
                 break;
         }
@@ -267,8 +376,8 @@ public class ProductDetailFragment extends ABaseFragment {
     //Dialog data
     private int number;
 
-    private void showAddCardDialog(){
-        if(mSkus==null||mSkus.size()==0){
+    private void showAddCardDialog(GetProductDetailResponseBean.ResultBean.SkusBean sku){
+        if(sku==null){
             return;
         }
         mDialogAddCard=Tools.showDialogFromBottom(getActivity(),R.layout.dialog_add_to_shopping_cart,false);
@@ -284,9 +393,13 @@ public class ProductDetailFragment extends ABaseFragment {
         mTvPlus.setOnClickListener(mOnCardDialogClick);
 
         mTvAddToCard=(TextView)mDialogAddCard.findViewById(R.id.btn_add);
+        mTvAddToCard.setTag(sku);
         mTvAddToCard.setOnClickListener(mOnCardDialogClick);
+
         mTvAddToCardAndView=(TextView)mDialogAddCard.findViewById(R.id.btn_add_and_view);
+        mTvAddToCardAndView.setTag(sku);
         mTvAddToCardAndView.setOnClickListener(mOnCardDialogClick);
+
         mTvCancel=(TextView)mDialogAddCard.findViewById(R.id.btn_cancel);
         mTvCancel.setOnClickListener(mOnCardDialogClick);
     }
@@ -313,10 +426,12 @@ public class ProductDetailFragment extends ABaseFragment {
                     mTvNum.setText(String.valueOf(number));
                     break;
                 case R.id.btn_add:
-                    addToCardRequest(mSkus.get(0).getSkuId(),false);
+                    GetProductDetailResponseBean.ResultBean.SkusBean sku=(GetProductDetailResponseBean.ResultBean.SkusBean)v.getTag();
+                    addToCardRequest(sku.getSkuId(),false);
                     break;
                 case R.id.btn_add_and_view:
-                    addToCardRequest(mSkus.get(0).getSkuId(),true);
+                    GetProductDetailResponseBean.ResultBean.SkusBean sku2=(GetProductDetailResponseBean.ResultBean.SkusBean)v.getTag();
+                    addToCardRequest(sku2.getSkuId(),true);
                     break;
                 case R.id.btn_cancel:
                     dismissAddCardDialog();
@@ -344,7 +459,10 @@ public class ProductDetailFragment extends ABaseFragment {
                         if(responseBean!=null){
                             dismissAddCardDialog();
                             if(goToCardList){
-
+                                Intent homePageIntent = new Intent(getActivity(), MainActivity.class);
+                                homePageIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                homePageIntent.putExtra(MainActivity.EXT_KEY_SHOW_PAGE,CartMain.class.getSimpleName());
+                                startActivity(homePageIntent);
                             }
                         }
                         break;
