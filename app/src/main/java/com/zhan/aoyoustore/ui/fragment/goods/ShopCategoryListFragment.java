@@ -87,7 +87,7 @@ public class ShopCategoryListFragment extends ABaseFragment implements PinnedHea
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 ShopCategory shopCategory = mDataList.get(groupPosition).staffInfoList.get(childPosition);
                 if (shopCategory.proCount > 0) {
-                    ProductListFragment.launch(getActivity(), shopCategory.cid);
+                    ProductListFragment.launch(getActivity(), shopCategory.cid,shopCategory.name);
                     return true;
                 }
                 return false;

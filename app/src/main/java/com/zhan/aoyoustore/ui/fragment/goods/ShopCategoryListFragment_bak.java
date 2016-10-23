@@ -102,7 +102,7 @@ public class ShopCategoryListFragment_bak extends APullToRefreshListFragment<Sho
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ShopCategory shopCategory=getAdapterItems().get((int) id);
         if(shopCategory.proCount>0){
-            ProductListFragment.launch(getActivity(), shopCategory.cid);
+            ProductListFragment.launch(getActivity(), shopCategory.cid, shopCategory.name);
         }
     }
 

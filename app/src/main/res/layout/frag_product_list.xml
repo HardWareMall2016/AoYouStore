@@ -29,29 +29,36 @@
             android:listSelector="?attr/selectableItemBackground"
             android:smoothScrollbar="true" />
 
-        <TextView
-            android:id="@+id/header_content"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rl_header_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_white_small"
-            android:gravity="center_vertical"
-            android:minHeight="50dp"
-            android:paddingLeft="8dp"
-            android:textColor="@color/text_color_title"
-            android:textSize="@dimen/text_size_normal" />
-        <TextView
-            android:id="@+id/header_elaboration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_white_small"
-            android:gravity="center_vertical"
-            android:minHeight="50dp"
-            android:paddingLeft="8dp"
-            android:layout_alignParentRight="true"
-            android:text="细化"
-            android:layout_marginRight="16dp"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/text_size_normal" />
+            android:background="@drawable/bg_white_small">
+            <TextView
+                android:id="@+id/Tv_header_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_small"
+                android:gravity="center_vertical"
+                android:minHeight="50dp"
+                android:paddingLeft="8dp"
+                android:textColor="@color/text_color_title"
+                android:textSize="@dimen/text_size_normal" />
+            <TextView
+                android:id="@+id/header_elaboration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_small"
+                android:gravity="center_vertical"
+                android:minHeight="50dp"
+                android:paddingLeft="8dp"
+                android:layout_alignParentRight="true"
+                android:text="细化"
+                android:layout_marginRight="16dp"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_size_normal" />
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <include

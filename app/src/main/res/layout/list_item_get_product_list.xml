@@ -10,7 +10,8 @@
         android:id="@+id/goods_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:scaleType="center"/>
+        android:scaleType="center"
+        android:layout_centerVertical="true"/>
 
     <TextView
         android:id="@+id/name"
@@ -21,54 +22,71 @@
         android:layout_toRightOf="@id/goods_icon"
         android:text="商品名称"
         android:textColor="@color/text_color_title"
-        android:textSize="@dimen/text_size_large"/>
+        android:textSize="@dimen/text_size_normal"/>
 
 
     <TextView
-        android:id="@+id/price"
+        android:id="@+id/shortDescription"
+        android:layout_below="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
         android:layout_toRightOf="@id/goods_icon"
-        android:text="价格￥123"
+        android:text="shortDescription"
         android:textColor="@color/text_color_title"
-        android:textSize="@dimen/text_size_small"/>
-
+        android:textSize="14dp"/>
 
     <TextView
-        android:id="@+id/marketPrice"
+        android:id="@+id/brand"
+        android:layout_below="@+id/shortDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@id/price"
-        android:text="市场价￥158"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@id/goods_icon"
+        android:text="brand"
         android:textColor="@color/text_color_title"
-        android:textSize="@dimen/text_size_small"/>
+        android:textSize="14dp"/>
+    <TextView
+        android:id="@+id/productCode"
+        android:layout_below="@+id/brand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@id/goods_icon"
+        android:text="productCode"
+        android:textColor="@color/text_color_title"
+        android:textSize="14dp"/>
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@id/goods_icon"
+        android:layout_below="@+id/productCode"
+        >
     <TextView
         android:id="@+id/saleCounts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="4dp"
-        android:layout_toRightOf="@id/goods_icon"
         android:text="销量12"
         android:textColor="@color/text_color_title"
-        android:textSize="@dimen/text_size_small"/>
+        android:textSize="14dp"/>
 
-    <TextView
-        android:id="@+id/discount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@id/saleCounts"
-        android:text="折扣 8"
-        android:textColor="@color/text_color_title"
-        android:textSize="@dimen/text_size_small"/>
+        <TextView
+            android:id="@+id/marketPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="市场价￥158"
+            android:textColor="@color/text_color_title"
+            android:textSize="14dp"/>
+    </LinearLayout>
+
 
     <ImageView
         android:id="@+id/arrow_right"

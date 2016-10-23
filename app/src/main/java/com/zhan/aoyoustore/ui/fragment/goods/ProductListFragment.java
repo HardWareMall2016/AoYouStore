@@ -13,6 +13,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -41,14 +42,21 @@ import java.util.List;
 public class ProductListFragment extends APullToRefreshListFragment<ProductListFragment.Product> {
 
     private final static String ARG_KEY_CATEGORY_ID = "arg_key_categoryId";
+    private final static String ARG_KEY_NAME  = "name";
     private final static String ARG_KEY_SEARCH_KEY = "arg_key_search";
 
-    @ViewInject(id = R.id.header_content)
+    @ViewInject(id = R.id.rl_header_content)
+    RelativeLayout mRlContentHeader;
+
+    @ViewInject(id = R.id.Tv_header_content)
     TextView mContentHeader;
+
+
 
     //data
     private int mCategoryId;
     private String mSearchKey;
+    private String mName;
 
     private ListView mListView;
 
@@ -56,10 +64,11 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
     private int lastTop = 0;
     private boolean isMoving = false;
 
-    public static void launch(Activity activity, int categoryId) {
+    public static void launch(Activity activity, int categoryId, String name) {
         FragmentArgs args = new FragmentArgs();
         args.add(ARG_KEY_CATEGORY_ID, categoryId);
         args.add(ARG_KEY_SEARCH_KEY, "");
+        args.add(ARG_KEY_NAME,name);
         FragmentContainerActivity.launch(activity, ProductListFragment.class, args);
     }
 
@@ -75,6 +84,8 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
         super.onCreate(savedInstanceState);
         mCategoryId = savedInstanceState == null ? (int) getArguments().getSerializable(ARG_KEY_CATEGORY_ID) : (int) savedInstanceState.getSerializable(ARG_KEY_CATEGORY_ID);
         mSearchKey = savedInstanceState == null ? (String) getArguments().getSerializable(ARG_KEY_SEARCH_KEY) : (String) savedInstanceState.getSerializable(ARG_KEY_SEARCH_KEY);
+        mName = savedInstanceState == null ? (String) getArguments().getSerializable(ARG_KEY_NAME) : (String) savedInstanceState.getSerializable(ARG_KEY_NAME);
+
     }
 
     @Override
@@ -82,6 +93,7 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
         super.onSaveInstanceState(outState);
         outState.putSerializable(ARG_KEY_CATEGORY_ID, mCategoryId);
         outState.putSerializable(ARG_KEY_SEARCH_KEY, mSearchKey);
+        outState.putSerializable(ARG_KEY_NAME, mName);
     }
 
     @Override
@@ -92,7 +104,7 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
     @Override
     protected void layoutInit(LayoutInflater inflater, Bundle savedInstanceSate) {
         super.layoutInit(inflater, savedInstanceSate);
-        getActivity().setTitle("商品列表");
+        getActivity().setTitle(mName);
 
         mListView = mPullToRefreshListView.getRefreshableView();
         mListView.setClipChildren(false);
@@ -164,7 +176,7 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
 
     /*Tool bar is show */
     private boolean isHeaderbarShown() {
-        return mContentHeader.getTranslationY() >= 0;
+        return mRlContentHeader.getTranslationY() >= 0;
     }
 
     public void hideHeaderBar() {
@@ -193,11 +205,11 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
 
         PropertyValuesHolder filterHolder = null;
         if (shown) {
-            filterHolder = PropertyValuesHolder.ofFloat("translationY", -1 * mContentHeader.getHeight(), 0);
+            filterHolder = PropertyValuesHolder.ofFloat("translationY", -1 * mRlContentHeader.getHeight(), 0);
         } else {
-            filterHolder = PropertyValuesHolder.ofFloat("translationY", 0, -1 * mContentHeader.getHeight());
+            filterHolder = PropertyValuesHolder.ofFloat("translationY", 0, -1 * mRlContentHeader.getHeight());
         }
-        filterBarObjectAnim = ObjectAnimator.ofPropertyValuesHolder(mContentHeader, filterHolder);
+        filterBarObjectAnim = ObjectAnimator.ofPropertyValuesHolder(mRlContentHeader, filterHolder);
         filterBarObjectAnim.setDuration(150);
 
         filterBarObjectAnim.start();
@@ -252,15 +264,21 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
                     for (GetProductListResponseBean.ResultBean.ProductsBean productsBean : productBean.getResult().getProducts()) {
                         Product productItem = new Product();
                         productItem.pid = productsBean.getPid();
-                        productItem.discount = productsBean.getDiscount();
-                        productItem.marketPrice = productsBean.getMarketPrice();
-                        productItem.discount = productsBean.getDiscount();
                         productItem.name = productsBean.getName();
                         productItem.pic = productsBean.getPic();
-                        productItem.saleCounts = productsBean.getSaleCounts();
                         productItem.price = productsBean.getPrice();
+                        productItem.marketPrice = productsBean.getMarketPrice();
+                        productItem.discount = productsBean.getDiscount();
                         productItem.saleCounts = productsBean.getSaleCounts();
                         productItem.url = productsBean.getUrl();
+                        productItem.brand = productsBean.getBrand();
+                        productItem.shortDescription = productsBean.getShortDescription();
+                        productItem.productCode = productsBean.getProductCode();
+                        productItem.stock = productsBean.getStock();
+                        productItem.minBuyNum = productsBean.getMinBuyNum();
+                        productItem.minPrice = productsBean.getMinPrice();
+                        productItem.maxPrice  = productsBean.getMaxPrice();
+
                         products.add(productItem);
                     }
                 }
@@ -276,8 +294,15 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
         @ViewInject(id = R.id.name)
         TextView mViewName;
 
-        @ViewInject(id = R.id.price)
-        TextView mViewPrice;
+        @ViewInject(id = R.id.shortDescription)
+        TextView mTvShortDescription;
+
+        @ViewInject(id = R.id.brand)
+        TextView mTvBrand;
+
+        @ViewInject(id = R.id.productCode)
+        TextView mTvProductCode;
+
 
         @ViewInject(id = R.id.marketPrice)
         TextView mViewMarketPrice;
@@ -285,8 +310,6 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
         @ViewInject(id = R.id.saleCounts)
         TextView mViewSaleCounts;
 
-        @ViewInject(id = R.id.discount)
-        TextView mViewDiscount;
 
         @Override
         public int inflateViewId() {
@@ -296,24 +319,19 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
         @Override
         public void bindingView(View convertView) {
             super.bindingView(convertView);
-            mViewMarketPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            //mViewMarketPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
         @Override
         public void bindingData(View convertView, Product data) {
             ImageLoader.getInstance().displayImage(data.pic, mViewGoodsIcon, Tools.buildDisplayGoodsImgOptions());
             Tools.setTextView(mViewName, data.name);
-            Tools.setTextView(mViewPrice, "￥" + data.price);
-            Tools.setTextView(mViewMarketPrice, "￥" + data.marketPrice);
-            Tools.setTextView(mViewSaleCounts, "销量:" + data.saleCounts);
+            Tools.setTextView(mTvShortDescription, data.shortDescription);
+            Tools.setTextView(mTvBrand, data.brand);
+            Tools.setTextView(mTvProductCode, data.productCode);
+            Tools.setTextView(mViewSaleCounts, "数量:" + data.saleCounts+"/"+data.minBuyNum);
 
-            String discountStr = "折扣:";
-            if (TextUtils.isEmpty(data.discount)) {
-                discountStr += "无";
-            } else {
-                discountStr += data.discount;
-            }
-            Tools.setTextView(mViewDiscount, discountStr);
+            Tools.setTextView(mViewMarketPrice, "￥" + data.minPrice+"-"+data.maxPrice);
         }
     }
 
@@ -326,6 +344,13 @@ public class ProductListFragment extends APullToRefreshListFragment<ProductListF
         String discount;
         int saleCounts;
         String url;
+        String brand;
+        String shortDescription;
+        String productCode;
+        int stock;
+        int minBuyNum;
+        double minPrice;
+        double maxPrice;
     }
 
 }
