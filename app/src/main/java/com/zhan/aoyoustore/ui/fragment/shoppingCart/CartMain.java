@@ -18,6 +18,7 @@ import com.zhan.aoyoustore.base.UserInfo;
 import com.zhan.aoyoustore.beans.SetShoppingCartQuantityResponseBean;
 import com.zhan.aoyoustore.beans.ShoppingCartResponseBean;
 import com.zhan.aoyoustore.network.ApiUrls;
+import com.zhan.aoyoustore.ui.fragment.order.CreateOrderFragment;
 import com.zhan.aoyoustore.utils.Tools;
 import com.zhan.framework.network.HttpRequestHandler;
 import com.zhan.framework.network.HttpRequestParams;
@@ -152,6 +153,7 @@ public class CartMain extends APullToRefreshListFragment<CartMain.CardInfo> {
     void OnClick(View v) {
         switch (v.getId()) {
             case R.id.submit:
+                CreateOrderFragment.launch(getActivity());
                 break;
         }
     }
