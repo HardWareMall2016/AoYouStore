@@ -46,6 +46,11 @@ public class ApiUrls {
     //获取商品详情
     public static final String GET_PRODUCT_DETAIL = "getProductDetail.ashx";
 
+    /***
+     *  会员中心
+     */
+    //获取收货地址
+    public static final String GET_ADDRE_LIST = "getUserAddrList.ashx";
 
     /***
      *  商城-常用查询
